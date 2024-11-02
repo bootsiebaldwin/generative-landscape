@@ -14,7 +14,7 @@ void setup() {
   stroke(0);           //pen color -- black
   frameRate(10);       //low frame rate creates a interesting sketchy look
   //noLoop();          //turns off looping
-}s
+}
 
 void draw() {
   background(255);        //canvas color -- white
