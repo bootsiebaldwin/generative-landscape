@@ -2,9 +2,11 @@
 int sizeX = 1000; 
 int sizeY = 600;
 
-//what Y the mountain starts at (x should be 0
+//what Y the mountain starts at
 int mountY = 250;
-int mountRate = 20;
+int mountRate = 20;        //range of Y change (mountY +/- mountRate)
+int mountXRateMin = 50; 
+int mountXRateMax = 20;
 
 
 public void settings() {
@@ -28,7 +30,7 @@ void draw() {
  
   //draws "mountain" (zigzag line across) at random intervals up and down and horizontal
   while (mountX < sizeX) {     //until end of canvas
-    r2 = int(random(5, 20));   //x distance the randomized. 
+    r2 = int(random(mountXRateMin, mountXRateMax));   //x distance the randomized. 
     
     //if point is low, next line can only be drawn above the current point
     if (!ifUpped) {
