@@ -11,28 +11,34 @@ public void settings() {
   size(sizeX, sizeY);
 }
 void setup() {
-  stroke(0);
-  frameRate(10);
-  //noLoop();
-}
+  stroke(0);           //pen color -- black
+  frameRate(10);       //low frame rate creates a interesting sketchy look
+  //noLoop();          //turns off looping
+}s
 
 void draw() {
-  background(255);
-  int mountX = 0;
-  int r1 = mountY;
-  int r2 = 10;
-  int currY = mountY;
+  background(255);        //canvas color -- white
+  int mountX = 0;         //tracks X value, starts at 0
+  int r1 = mountY;        //will be random number for y variables
+  int r2 = 10;            //will be random distance x moves each iteration
+  int currY = mountY;     //tracks Y value, starts at programs set mount start height
   
-  boolean ifUpped = false;     //if the mountain went up this is true
-  while (mountX < sizeX) {
-    r2 = int(random(5, 20));    //x distance the randomized. 
-    //r2 = 50;
-    if (!ifUpped) {            //if point is low, next line can only be drawn above the current point
+  //if the mountain went up this is true
+  boolean ifUpped = false;     //start at mountain is at low point
+ 
+  //draws "mountain" (zigzag line across) at random intervals up and down and horizontal
+  while (mountX < sizeX) {     //until end of canvas
+    r2 = int(random(5, 20));   //x distance the randomized. 
+    
+    //if point is low, next line can only be drawn above the current point
+    if (!ifUpped) {
       r1 = int(random(currY, mountY + mountRate));  
       line(mountX, currY, mountX + r2, r1);
       currY = r1;
       ifUpped = true;
-    } else {                   //else point is high and next line can only be drawn below the current point
+      
+    //else point is high and next line can only be drawn below the current point
+    } else {
       r1 = int(random(mountY - mountRate, currY));
       line(mountX, currY, mountX + r2, r1);
       currY = r1;
@@ -40,11 +46,4 @@ void draw() {
     }
     mountX += r2;
   }
-  //line(0, mountY, width, mountY);
-  /*
-  mountY--;
-  if (mountY < 0) { 
-    mountY = height;
-  }
-  */
 }
