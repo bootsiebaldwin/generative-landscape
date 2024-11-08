@@ -4,9 +4,11 @@ int sizeY = 600;
 
 //what Y the mountain starts at
 int mountY = 250;
+int mountYStored = mountY;
 int mountRate = 20;        //range of Y change (mountY +/- mountRate)
 int mountXRateMin = 50; 
 int mountXRateMax = 20;
+int mountMoveRate = 10;
 
 
 public void settings() {
@@ -19,7 +21,7 @@ void setup() {
 }
 
 void draw() {
-  background(255);        //canvas color -- white
+  //background(255);        //canvas color -- white
   int mountX = 0;         //tracks X value, starts at 0
   int r1 = mountY;        //will be random number for y variables
   int r2 = 10;            //will be random distance x moves each iteration
@@ -48,4 +50,11 @@ void draw() {
     }
     mountX += r2;
   }
+  
+  if (mountY <= sizeY - 5) {
+    mountY = mountY + 5;
+  } else {
+    mountY = mountYStored;
+  }
+  
 }
