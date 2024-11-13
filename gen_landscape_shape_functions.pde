@@ -11,7 +11,7 @@ void setup() {
 
 void draw(){
   //line(x1, y1, x2, y2);
-  pawn1(400, 600);
+  pawn2(400, 600);
 
 }
 
@@ -26,4 +26,16 @@ void pawn1(float xStart, float yStart){
   line(xStart + 170, yStart - 50, xStart + 170, yStart - 100);
   
   line(xStart + 30, yStart - 100, xStart + 170, yStart - 100);
+}
+
+void pawn2(float xStart, float yStart){
+  line(xStart, yStart, xStart + 200, yStart);
+  
+  curve(xStart + 200, yStart - 16.5, xStart, yStart, xStart, yStart - 50, xStart + 200, yStart - 33.5);
+  curve(xStart, yStart - 16.5, xStart + 200, yStart, xStart + 200, yStart - 50, xStart, yStart - 33.5);
+  
+  line(xStart, yStart - 50, xStart - 30, yStart - 100);
+  line(xStart + 200, yStart - 50, xStart + 230, yStart - 100);
+  
+  line(xStart - 30, yStart - 100, xStart + 230, yStart - 100);
 }
