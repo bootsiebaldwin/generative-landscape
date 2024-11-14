@@ -24,6 +24,7 @@ void draw() {
   tallRect2(0, 0, 0.75, PI/4, 850, 300);
   
   pawn2(500, 300, 1, 0, 200, 100);
+  hexagon(0, 0, 2, 0, 900, 700);
 
 }
 
@@ -100,6 +101,25 @@ void tallRect2(float xStart, float yStart, float scl, float rtt, float xTrans, f
   
   line(xStart + 150, yStart - 150, xStart, yStart - 150);
   line(xStart, yStart - 150, xStart, yStart);
+  
+  popMatrix();
+}
+
+void hexagon(float xStart, float yStart, float scl, float rtt, float xTrans, float yTrans){
+  pushMatrix();
+  
+  translate(xTrans, yTrans);
+  rotate(rtt);
+  scale(scl);
+  
+  line(xStart, yStart, xStart + 80, yStart);
+  line(xStart + 80, yStart, xStart + 105, yStart - 50);
+  
+  line(xStart + 105, yStart - 50, xStart + 80, yStart - 100);
+  line(xStart + 80, yStart - 100, xStart, yStart - 100);
+  
+  line(xStart, yStart - 100, xStart - 25, yStart - 50);
+  line(xStart - 25, yStart - 50, xStart, yStart);
   
   popMatrix();
 }
