@@ -18,13 +18,19 @@ void setup() {
 
 void draw() {
 
-  pawn1(0, 0, 1, 0, 400, 300);
-  pawn2(0, 0, 0.5, HALF_PI, 700, 400);
-  tallRect1(0, 0, 1.25, PI, 250, 600);
-  tallRect2(0, 0, 0.75, PI/4, 850, 300);
+  //pawn1(0, 0, 1, 0, 400, 300);
+  //pawn2(0, 0, 0.5, HALF_PI, 700, 400);
+  //tallRect1(0, 0, 1.25, PI, 250, 600);
+  //tallRect2(0, 0, 0.75, PI/4, 850, 300);
   
-  pawn2(500, 300, 1, 0, 200, 100);
-  hexagon(0, 0, 2, 0, 900, 700);
+  //pawn2(500, 300, 1, 0, 200, 100);
+  //hexagon(0, 0, 2, 0, 900, 700);
+  
+  //pushMatrix();
+  //translate(700, 600);
+  //recursiveShape(0, 0, 100, 3);
+  //popMatrix();
+  recPawn1(400, 600, 50, 2);
 
 }
 
@@ -46,6 +52,27 @@ void pawn1(float xStart, float yStart, float scl, float rtt, float xTrans, float
   line(xStart + 170, yStart - 50, xStart + 170, yStart - 100);
   
   line(xStart + 30, yStart - 100, xStart + 170, yStart - 100);
+  popMatrix();
+}
+
+void recPawn1(float xCenter, float yCenter, float size, int recLevel){
+
+  if(recLevel > 0){
+    recPawn1(xCenter - size*1.5, yCenter - size*2, size/2, recLevel-1);
+    recPawn1(xCenter + size*1.5, yCenter - size*2, size/2, recLevel-1);
+  }
+  
+  pushMatrix();
+  line(xCenter, yCenter - size, xCenter + (size*2), yCenter - size);
+  line(xCenter + (size*2), yCenter - size, (xCenter + (size*2 - size/2)), yCenter - (size*2));
+  
+  line(xCenter, yCenter - size, xCenter - (size*2), yCenter - size);
+  line(xCenter - (size*2), yCenter - size, (xCenter - (size*2 - size/2)), yCenter - (size*2));
+  
+  line(xCenter - (size*2 - size/2), yCenter - (size*2), xCenter - (size*2 - size/2), yCenter - (size*3));
+  line(xCenter + (size*2 - size/2), yCenter - (size*2), xCenter + (size*2 - size/2), yCenter - (size*3));
+  
+  line(xCenter + (size*2 - size/2), yCenter - (size*3), xCenter - (size*2 - size/2), yCenter - (size*3));
   popMatrix();
 }
 
@@ -122,4 +149,23 @@ void hexagon(float xStart, float yStart, float scl, float rtt, float xTrans, flo
   line(xStart - 25, yStart - 50, xStart, yStart);
   
   popMatrix();
+}
+
+void recursiveShape(float xCenter, float yCenter, float size, int recLevel){
+  //size determines the placement of the object away from the center, some funky math will have to be done for different objects but that's the idea
+  //recLevel is how many times the function is called, with 0 being just one call of the function with no if statement called
+    
+    //base case, this is always done first
+    pushMatrix();
+    line(xCenter - size, yCenter - size, xCenter + size, yCenter - size);
+    line(xCenter + size, yCenter - size, xCenter + size, yCenter + size);
+    line(xCenter + size, yCenter + size, xCenter - size, yCenter + size);
+    line(xCenter - size, yCenter + size, xCenter - size, yCenter - size);
+    popMatrix();
+  
+  if(recLevel > 0){
+    recursiveShape(xCenter - size, yCenter - size, size*.75, recLevel-1);
+    recursiveShape(xCenter + size, yCenter - size, size*.75, recLevel-1);
+  }
+  
 }
