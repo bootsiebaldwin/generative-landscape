@@ -22,17 +22,17 @@ double[] calcPoint(int x, int y, int len, int ang) {
   return secPoint;
 }
 
-void drawKing(int x, int y, int scale, int ang) {
+void drawKing(int x, int y, float scale, int ang) {
   //x, y of first point
   //height of bottom part, height of top part?
   //width of prong
-  int prongWidth = 20;
-  int prongHeight = 50;
-  int baseHeight = 30;
+  float prongWidth = 20 * scale;
+  float prongHeight = 50 * scale;
+  float baseHeight = 30 * scale;
   //int shapeWidth = prongWidth * 5;
   
-  int currX = x;
-  int currY = y;
+  float currX = x;
+  float currY = y;
   
   currY = y - baseHeight;
   line(x, y, currX, currY);
@@ -80,4 +80,5 @@ void draw() {
   //rect(120, 80, 220, 220);
   
   drawKing(300, 300, 1, 0);
+  drawKing(300, 300, 0.9, 0);
 }
