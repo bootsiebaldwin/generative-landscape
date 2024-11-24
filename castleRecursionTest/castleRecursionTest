@@ -1,0 +1,39 @@
+int sizeX = 1080; 
+int sizeY = 720;
+
+public void settings() {
+  size(sizeX, sizeY);
+}
+void setup() {
+  stroke(0); 
+  frameRate(10); 
+}
+
+//DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
+void draw(){
+  
+  line(400, 600, 401, 601); //draw a dot at position 400, 600 to test if shape is drawn around origin when moved to position 400, 600
+  
+  pushMatrix();
+  translate(400, 600);
+  rotate(PI/4);
+  drawPawn1(50);
+  popMatrix();
+  
+}
+
+//this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
+void drawPawn1(float size){
+  pushMatrix();
+  line((size-size), size, (size*2), size); //using (size-size) instead of 0 just in case 0 messes up some weird rotate function in some way
+  line((size*2), size, (size*2 - size/2), (size-size));
+  
+  line((size-size), size, -(size*2), size);
+  line(-(size*2), size, -(size*2 - size/2), (size-size));
+  
+  line(-(size*2 - size/2), -size, -(size*2 - size/2), (size-size));
+  line((size*2 - size/2), -size, (size*2 - size/2), (size-size));
+  
+  line((size*2 - size/2), -size, -(size*2 - size/2), -size);
+  popMatrix();
+}
