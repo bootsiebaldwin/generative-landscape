@@ -18,23 +18,24 @@ void setup() {
 }
 
 void draw() {
-  drawShape(500,500,200,4);
-  drawKing(400, 400, 1);
+  drawShape(500,500,1,4);
+  //drawKing(400, 400, 1);
 }
 
 void drawShape(float x, float y, float size, float level) {
   float scale = 1.5;
-  float corner = size / 2;
+  float corner = 100 * size;
   
   if (level == 0) {
-    drawSquare(x, y, size);
-    //drawKing(x, y, size);
+    //drawSquare(x, y, size);
+    drawKing(x, y, size);
     
   } else {
-    drawSquare(x, y, size);
-    //drawKing(x, y, size);
+    //drawSquare(x, y, size);
+    drawKing(x, y, size);
    
-    float nextSize = size / scale;
+    //float nextSize = size / scale;
+    float nextSize = size * 0.5;
 
     drawShape(x-corner,y-corner, nextSize, level-1);
     drawShape(x+corner,y-corner, nextSize, level-1);
@@ -74,8 +75,11 @@ void drawKing(float x, float y, float scale) {
   float prongWidth  = baseWidth / 5;
   float prongHeight = 50 * scale;
   
+  //list of rotation angle possibilities
+  float[] angList = {0, PI/6, 5*PI/6, 7*PI/6, 11*PI/6, PI};
+  int randNum = int(random(0,6));
   //angle of rotation of whole shape
-  float ang = random(0,2*PI);
+  float ang = angList[randNum];
 
   //calc point for the base of the shape
   float r1x = calcPointX(x, y, baseWidth / 2, -baseHeight / 2, ang); 
@@ -126,7 +130,7 @@ void drawKing(float x, float y, float scale) {
   float c3X = calcPointX(x, y, 5 * prongWidth / 2, prongDelY, ang);
   float c3Y = calcPointY(x, y, 5 * prongWidth / 2, prongDelY, ang);
   
-  
+  //all x values for points
   float[] xVals = {
     r1x, r2x, r3x, r4x,  // base X values
     a1X, a2X, a3X,       // a-prong X values
@@ -134,6 +138,7 @@ void drawKing(float x, float y, float scale) {
     c1X, c2X, c3X        // c-prong X values
   };
   
+  //all y values for points
   float[] yVals = {
     r1y, r2y, r3y, r4y,  // base Y values
     a1Y, a2Y, a3Y,       // a-prong Y values
@@ -210,7 +215,7 @@ float calcPointX(float orgX, float orgY, float delX, float delY, float ang) {
 float calcPointY(float orgX, float orgY, float delX, float delY, float ang) {
   float calcY = 0;
   
-  calcY = orgY +  delX * sin(ang) + delY * cos(ang);
+  calcY = orgY +  delX * sin(ang) + (delY) * cos(ang);
   
   return calcY;
     
