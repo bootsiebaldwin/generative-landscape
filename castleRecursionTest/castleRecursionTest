@@ -12,16 +12,11 @@ void setup() {
 //DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
 void draw(){
   
-  //pushMatrix();
-  //translate(400, 600);
-  //rotate(PI/4);
-  //drawPawn1(50);
-  //popMatrix();
-  
   pushMatrix();
-  translate(400, 600);
-  //rotate(HALF_PI);
-  recShape(50, 2, PI*2); //so currently every shape save level 0 is drawing twice (like in the same spot) and it has to do with rotation tho I have no idea how
+  translate(400, 300);
+  rotate(PI);
+  drawPawn1(50, 0);
+  recShape(50, 5, HALF_PI);
   popMatrix();
   
 }
@@ -45,28 +40,25 @@ void drawPawn1(float size, float rotation){
   popMatrix();
 }
 
+//draw the shape recursively, currently only using drawPawn1
 void recShape(float size, float recLevel, float rotation){
   
   if(recLevel > 0){
     pushMatrix();
-    translate(-(size*1.5), -size);
-    //rotate(HALF_PI);
+    translate(-(size*1.5), -size+(size/2));
     
-    drawPawn1(size/2, rotation);
+    drawPawn1(size/1.5, rotation);
 
-    recShape(size/2, recLevel-1, rotation/2);    
+    recShape(size/1.5, recLevel-1, rotation/2);    
     popMatrix();
     
     pushMatrix();
-    translate(size*1.5, -size);
-    //rotate(-HALF_PI);
+    translate(size*1.5, -size+(size/2));
     
-    drawPawn1(size/2, -rotation);
+    drawPawn1(size/1.5, -rotation);
 
-    recShape(size/2, recLevel-1, -rotation/2);
+    recShape(size/1.5, recLevel-1, -rotation/2);
     popMatrix();
   }
-  
-  drawPawn1(size, rotation); //base case, draw the shape of normal size
   
 }
