@@ -1,0 +1,72 @@
+int sizeX = 1080; 
+int sizeY = 720;
+
+public void settings() {
+  size(sizeX, sizeY);
+}
+void setup() {
+  stroke(0); 
+  frameRate(10); 
+}
+
+//DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
+void draw(){
+  
+  //pushMatrix();
+  //translate(400, 600);
+  //rotate(PI/4);
+  //drawPawn1(50);
+  //popMatrix();
+  
+  pushMatrix();
+  translate(400, 600);
+  //rotate(HALF_PI);
+  recShape(50, 2, PI*2); //so currently every shape save level 0 is drawing twice (like in the same spot) and it has to do with rotation tho I have no idea how
+  popMatrix();
+  
+}
+
+//this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
+void drawPawn1(float size, float rotation){
+  pushMatrix();
+  rotate(rotation);
+  line(size-size, size-size, size-size+1, size-size+1); //draw a dot in the center of the object to track origin
+  
+  line((size-size), size, (size*2), size); //using (size-size) instead of 0 just in case 0 messes up some weird rotate function in some way
+  line((size*2), size, (size*2 - size/2), (size-size));
+  
+  line((size-size), size, -(size*2), size);
+  line(-(size*2), size, -(size*2 - size/2), (size-size));
+  
+  line(-(size*2 - size/2), -size, -(size*2 - size/2), (size-size));
+  line((size*2 - size/2), -size, (size*2 - size/2), (size-size));
+  
+  line((size*2 - size/2), -size, -(size*2 - size/2), -size);
+  popMatrix();
+}
+
+void recShape(float size, float recLevel, float rotation){
+  
+  if(recLevel > 0){
+    pushMatrix();
+    translate(-(size*1.5), -size);
+    //rotate(HALF_PI);
+    
+    drawPawn1(size/2, rotation);
+
+    recShape(size/2, recLevel-1, rotation/2);    
+    popMatrix();
+    
+    pushMatrix();
+    translate(size*1.5, -size);
+    //rotate(-HALF_PI);
+    
+    drawPawn1(size/2, -rotation);
+
+    recShape(size/2, recLevel-1, -rotation/2);
+    popMatrix();
+  }
+  
+  drawPawn1(size, rotation); //base case, draw the shape of normal size
+  
+}
