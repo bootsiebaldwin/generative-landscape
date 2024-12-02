@@ -31,6 +31,7 @@ void draw() {
                                    // I just matched the base shape for the values, but this
                                    // may vary depending on what shape we use and that shapes function
                                    
+  hexagon(0, 0, 2, 0, 900, 700);
 }
 
 /**
