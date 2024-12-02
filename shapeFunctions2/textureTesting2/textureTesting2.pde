@@ -69,8 +69,8 @@ void drawPawn1(float size, float rotation, int textureIndex){
   shapeMask.fill(255);  // fills the defined area (affects transparency)
   
   shapeMask.pushMatrix();
-  shapeMask.rotate(rotation);
   shapeMask.translate(width / 2, height / 2);      //centers the shape
+  shapeMask.rotate(rotation);
   
   shapeMask.beginShape();
   
@@ -129,8 +129,8 @@ void drawKing(float size, float rotation, int textureIndex){
   shapeMask.fill(255);  // fills the defined area (affects transparency)
   
   shapeMask.pushMatrix();
-  shapeMask.rotate(rotation);
   shapeMask.translate(width / 2, height / 2);      //centers the shape
+  shapeMask.rotate(rotation);
   
   float fifthWidth = ((size*2 - size/2) + (size*2 - size/2)) / 5;
   float prongHeight = size - (2 * size / 3);
