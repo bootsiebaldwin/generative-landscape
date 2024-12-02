@@ -39,43 +39,65 @@ void draw(){
   
   pushMatrix();
   translate(350, 325);
-  rotate(PI);              //flips the shape
+  rotate(PI);              //flips the entire shape
   //mask.translate(350, 325);
   //mask.rotate(PI);
   //rotate(0);
   //drawPawn1(50, 0);
-  
+  drawPawn1(50, 0, baseTextureIndex);
   pushMatrix();
-  drawKing(50, 0, baseTextureIndex);        //base case -- could be any shape
+  //drawKing(50, 0, baseTextureIndex);        //base case -- could be any shape
   popMatrix();
   
-  recShape(50, 5, HALF_PI);
+  recShape(50, 3, HALF_PI);
   popMatrix();
   
   noLoop();
   
 }
 
+//DRAWS WITH TEXTURE
 //this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
 void drawPawn1(float size, float rotation, int textureIndex){
-  pushMatrix();
-  rotate(rotation);
-  line(size-size, size-size, size-size+1, size-size+1); //draw a dot in the center of the object to track origin
+  //get texture which texture given the random index
+  PImage currentTexture = textures[textureIndex]; 
+
+  //create a separate masks for each shape
+  PGraphics shapeMask = createGraphics(width, height);
+  shapeMask.beginDraw();
+  shapeMask.stroke(255);  
+  shapeMask.fill(255);  // fills the defined area (affects transparency)
   
-  line((size-size), size, (size*2), size); //using (size-size) instead of 0 just in case 0 messes up some weird rotate function in some way
-  line((size*2), size, (size*2 - size/2), (size-size));
+  shapeMask.pushMatrix();
+  shapeMask.rotate(rotation);
+  shapeMask.translate(width / 2, height / 2);      //centers the shape
   
-  line((size-size), size, -(size*2), size);
-  line(-(size*2), size, -(size*2 - size/2), (size-size));
+  shapeMask.beginShape();
   
-  line(-(size*2 - size/2), -size, -(size*2 - size/2), (size-size));
-  line((size*2 - size/2), -size, (size*2 - size/2), (size-size));
+  //each point of the pawn shape in clock wise order
+  shapeMask.vertex(size-size, size); 
+  shapeMask.vertex((size * 2), size); 
+  shapeMask.vertex((size * 2 - size / 2), size-size); 
+  shapeMask.vertex((size * 2 - size / 2),-(size));
+  shapeMask.vertex(-(size * 2 - size / 2), -(size));
+  shapeMask.vertex(-(size * 2 - size / 2), size-size);
+  shapeMask.vertex(-(size * 2), size); 
+   
   
-  line((size*2 - size/2), -size, -(size*2 - size/2), -size);
-  popMatrix();
+  shapeMask.endShape(CLOSE);  //close the shape
+  
+  shapeMask.popMatrix();
+  shapeMask.endDraw();
+  
+  //apply the mask to the selected texture
+  currentTexture.mask(shapeMask);
+  
+  //draw the image with the mask
+  image(currentTexture, -width/2, -height/2);
 }
 
 //this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
+//ORIGINAL WITH NO TEXTURE -- Just lines
 void drawPawn1(float size, float rotation){
   pushMatrix();
   rotate(rotation);
@@ -223,10 +245,11 @@ void recShape(float size, float recLevel, float rotation){
       //drawPawn1(size/rateOfSize, rotation/2);                //original line of code for rotation
       //drawPawn1(size/rateOfSize, rotations[randomRotVal], randomTextureVal);     //with random rotation
       drawPawn1(size/rateOfSize, rotations[randomRotVal]);
+      drawPawn1(size/rateOfSize, rotations[randomRotVal], randomTextureVal);  
       
     } else if (randomShapeVal == 1) {
       //drawKing(size/rateOfSize, rotation/2);                 //original line of code for rotation
-      //drawKing(size/rateOfSize, rotations[randomRotVal], randomTextureVal);      //with random rotation
+      drawKing(size/rateOfSize, rotations[randomRotVal], randomTextureVal);      //with random rotation
       drawKing(size/rateOfSize, rotations[randomRotVal]);
     }
     
@@ -253,6 +276,7 @@ void recShape(float size, float recLevel, float rotation){
       //drawPawn1(size/rateOfSize, -rotation/2);              //original line of code for rotation
       //drawPawn1(size/rateOfSize, rotations[randomRotVal], randomTextureVal);    //with random rotation
       drawPawn1(size/rateOfSize, rotations[randomRotVal]);
+      drawPawn1(size/rateOfSize, rotations[randomRotVal], randomTextureVal);
       
       
     } else if (randomShapeVal == 1) {
