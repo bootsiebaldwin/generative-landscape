@@ -44,6 +44,7 @@ void draw() {
 void drawTree(float len, int depth, int angle, int limit) {
   if (depth >= limit) return;
 
+  pushStyle();  // Save current style settings
   if (depth < 6) {
     stroke(155, 105, 60); 
     strokeWeight(7 - depth); 
@@ -66,6 +67,7 @@ void drawTree(float len, int depth, int angle, int limit) {
   popMatrix();
 
   translate(0, len);
+  popStyle();  // Restore previous style settings
 }
 
 ArrayList<Integer> generatePrimes(int limit) {
