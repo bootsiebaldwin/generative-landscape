@@ -4,17 +4,23 @@ int sizeY = 720;
 //possible rotation values of the shapes
 float[] rotations = {0, PI, PI/2, 3*PI/2};            //right now I have all the shapes staying the same rotation or upside down
 
-int whichColorPalette;
+int whichColorPalette;    //tracks the global color palette of the castle
+
+int loopCount = 0;        //used in draw() to have background appear before castle
 
 PGraphics mask;
 PImage img1, img2, img3;
 PImage[] textures;
-
-//assets
+ 
+//------ main assets ------
 PImage backgroundImg;
+
 PImage[] bushImgs;
+PImage pineTreeImg;
+
 PImage[] cloudImgs;
 PImage[] moonImgs;
+
 PImage[] dragonImgs;
 
 
@@ -33,6 +39,12 @@ void setup() {
                            loadImage("Bush_4.png"), loadImage("Bush_5.png"), loadImage("Bush_6.png")
                          };
   
+  pineTreeImg = loadImage("pinetree.png");
+                         
+                         
+  cloudImgs = new PImage[]{ loadImage("Cloud_1.png"), loadImage("Cloud_2.png"), loadImage("Cloud_3.png"),
+                            loadImage("Cloud_4.png")
+                         };
   
   //load test texture images
   img1 = loadImage("https://manytextures.com/download/69/texture/jpg/2048/rock-wall-2048x2048.jpg"); // Texture 1
@@ -50,38 +62,65 @@ void setup() {
   //creates mask canvas
   mask = createGraphics(width, height);
   
-  
-  //random color palette
-  whichColorPalette = int(random(0,6));
 }
 
 //DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
 void draw(){
   int baseTextureIndex = int(random(textures.length));
   
-  //draw background of scene
-  pushMatrix();
+  if (loopCount == 0) {        //draws background on first iteration of draw()  
+    //random color palette
+    whichColorPalette = int(random(0,6));
+    int[] randRGB = calcRandomTint();
+    
+    //draw background of scene
+    pushMatrix();
+    
+    tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
+    image(backgroundImg, 0, 0);
+    
+    tint(255, 255, 255); 
+    
+    
+    popMatrix();
+  }
   
-  image(backgroundImg, 0, 0);
+  if (loopCount == 1) {           //draws castle on second iteration of draw() then stops loop
+    //new color palette for castle specifically
+    whichColorPalette = int(random(0,6));
+    
+    pushMatrix();
+    //350, 325
+    translate(600, 500);
+    //rotate(PI);              //flips the entire shape
+    
+    recShape(75, 6, HALF_PI);
+    drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
+    drawPawn1(75, 0);
+    
+    popMatrix();
+    
+    noLoop();
+  }
   
-  popMatrix();
+  loopCount++;
   
-  pushMatrix();
-  //350, 325
-  translate(600, 500);
-  //rotate(PI);              //flips the entire shape
-  
-  recShape(75, 6, HALF_PI);
-  drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
-  drawPawn1(75, 0);
-  
-  popMatrix();
-  
-  noLoop();
+  //idea: could insert tree iteration to run after loop count > 0, so we see growth 
   
 }
 
 void drawStaticAssets() {
+  int treeOrBushVal = int(random(0,2));   // if 0 -- tree, if 1 -- one of the bushes
+  
+  int[] plantLocationX = {120, 75,  750, 875, 990};
+  int[] plantLocationY = {550, 450, 525, 490, 610};
+  
+  for(int i = 0; i < plantLocationX.length; i++) {
+    if (treeOrBushVal == 0) {
+      
+    }
+    
+  }
   
   
 }
@@ -242,7 +281,7 @@ void drawKing(float size, float rotation){
 int[] calcRandomTint() {
   int[] randomRGB = new int[3];      // holds RGB value  
   
-  whichColorPalette = 6;
+ // whichColorPalette = 6;
   
   if (whichColorPalette == 0) {
     // brick color palette
