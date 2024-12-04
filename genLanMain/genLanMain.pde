@@ -4,6 +4,8 @@ int sizeY = 720;
 //possible rotation values of the shapes
 float[] rotations = {0, PI, PI/2, 3*PI/2};            //right now I have all the shapes staying the same rotation or upside down
 
+int whichColorPalette;
+
 PGraphics mask;
 PImage img1, img2, img3;
 PImage[] textures;
@@ -35,6 +37,9 @@ void setup() {
   
   //background
   backgroundImg = loadImage("background.png");
+  
+  //random color palette
+  whichColorPalette = int((random(0,4)));
 }
 
 //DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
@@ -213,11 +218,49 @@ void drawKing(float size, float rotation){
 
 //gives random color value for image tint
 int[] calcRandomTint() {
-  int[] randomRGB = new int[3];
+  int[] randomRGB = new int[3];      // holds RGB value  
   
-  randomRGB[0] = int(random(0,256));    //R
-  randomRGB[1] = int(random(0,256));    //G
-  randomRGB[2] = int(random(0,256));    //B
+  if (whichColorPalette == 0) {
+    // brick color palette
+    int randomNum  = int(random(120,125));
+    
+    randomRGB[0] = int(random(randomNum, randomNum + 10));    //Red
+    randomRGB[1] = int(random(randomNum - 40, randomNum-5));  //Green
+    randomRGB[2] = randomRGB[1];                              //Blue
+    
+  } else if (whichColorPalette == 1) {
+    // dark blue green palette
+    int randomNum  = int(random(60,125));
+    
+    randomRGB[0] = int(random(randomNum - 40, randomNum-5));    //Red
+    randomRGB[1] = randomRGB[0] + 20;                           //Green
+    randomRGB[2] = int(random(randomNum, randomNum + 10));      //Blue
+  
+  } else if (whichColorPalette == 2) {
+    // dark grey color palette
+    int randomNum  = int(random(60,125));
+    //int randomVary = int(random(0, 10));
+    
+    randomRGB[0] = randomNum - int(random(0, 10));    //Red
+    randomRGB[1] = randomNum - int(random(0, 5));    //Green
+    randomRGB[2] = randomNum - int(random(0, 10));   //Blue
+    
+  } else if (whichColorPalette == 3) {
+    // dark warm purple palette
+    int randomNum  = int(random(60,125));
+    
+    randomRGB[0] = int(random(randomNum, randomNum + 10));    //Red
+    randomRGB[1] = int(random(randomNum - 40, randomNum-5));  //Green
+    randomRGB[2] = randomRGB[0] + 20;                         //Blue
+  
+  } else if (whichColorPalette == 4) {
+    // dark cool purple palette
+    int randomNum  = int(random(60,125));
+    
+    randomRGB[0] = int(random(randomNum - 20, randomNum - 10));    //Red
+    randomRGB[1] = randomRGB[0] - 20;                              //Green
+    randomRGB[2] = int(random(randomNum + 10, randomNum + 60));    //Blue
+  }
   
   return randomRGB;
 }
