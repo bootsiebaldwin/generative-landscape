@@ -17,7 +17,7 @@ public void settings() {
 }
 void setup() {
   stroke(0); 
-  frameRate(10); 
+  frameRate(1); 
   
   //load images
   img1 = loadImage("https://manytextures.com/download/69/texture/jpg/2048/rock-wall-2048x2048.jpg"); // Texture 1
@@ -48,7 +48,9 @@ void draw(){
   
   //draw background of scene
   pushMatrix();
-    image(backgroundImg, 0, 0);
+  
+  image(backgroundImg, 0, 0);
+  
   popMatrix();
   
   pushMatrix();
@@ -198,7 +200,7 @@ void drawKing(float size, float rotation, int textureIndex){
 //ORIGINAL WITH NO TEXTURE -- JUST LINES
 void drawKing(float size, float rotation){
   pushMatrix();
-  //translate(-(size*1.5) * 1.5 * 1.2, -2*size+(size/2) *1.2); 
+ 
   rotate(rotation);
   float fifthWidth = ((size*2 - size/2) + (size*2 - size/2)) / 5;
   float prongHeight = size - (2 * size / 3);
@@ -218,7 +220,9 @@ void drawKing(float size, float rotation){
   line((size*2 - size/2), -size, (size*2 - size/2), size);  //vertical lines of base
   
   line((size*2 - size/2), -size, -(size*2 - size/2), -size);  //bottom line of base
+  
   popMatrix();
+  
 }
 
 //gives random color value for image tint
@@ -315,7 +319,6 @@ void recShape(float size, float recLevel, float rotation){
   int[] randomBranchVals = {0,1,2,3,4};
   
   int shapeTypeCount = 2;      // number of shapes, just makes it easier to only have to change one number when we add things
-  
   
   //this stops the recursion -- once recLevel reaches 0
   if(recLevel > 0){
