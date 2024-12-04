@@ -11,7 +11,22 @@ SO, for randomness of where the static png assets are, here is a list of the ran
 The bushes and pine trees can be interchangeably placed when the simulation begins WITH THEIR BOTTOM LEFT CORNER AT 
     [ (200, 700), (75, 650), (750, 675), (875, 690), (1000, 710) ] 
   I think it would be interesting if the foliage could be placed at all or none of them, so at draw time the algorithm goes through five times and picks either a 1 or a 2. If 1, nothing is drawn, if 2 something is drawn. Then it goes through if something is drawn and randomly picks the sprite drawn
+Again, I'm thinking that all of these assets can be called at draw time in the draw() function. While changes over time can be interesting, I'm not certain if we have the time for it right now. Also, adding randomness for what layer the sprites are drawn on would be nice and easy to implement if we 
+figure layers out. Just remember that the background is layer 0 and everything else is drawn in front of it, with the UI being the highest layer with nothing else on it
 
 Now for the castle itself, where we have some interesting options in how to proceed with randomness that will help determine its shape and limit how wide it grows. If we find that through the randomness, it keeps growing too narrow, we can always generate more than one tree/tower/castle and move them
 around and layer them to work with each other. The height will be determined by the number of layers which I'd like to keep static, but with this logic I'm proposing the shape generated will not be a pyramid and has a chance of not reaching the final layer/level
 
+The logic already in place for textureTesting2 is a very good starting point. I don't want to focus as much on the scaling and rotation of each shape, but rather what is drawn and if something is drawn at all.
+I want to keep the logic that decides what shape is drawn each time, I see no reason to change it. However, I'd like to add an additional enclosing if statement that is called whenever the level is above 0
+
+randomValueForBranches = [1, 2, 3]; //1 means only the left branch of the recursive function is called, 2 is only the right branch, 3 is both
+if (branchValue != 2 || branchValue == 3) call if statements for picking shape to be drawn for left branch
+
+else if (branchValue != 1 || branchValue == 3) call if statements for picking shape to be drawn for right branch
+
+3 is an option for both branches, so if 3 is picked we don't need to create an extra else if statement doing the same thing that the first two are doing
+Hopefully this will help restrain the castle growth. If we find that it keeps growing too narrow too fast, we can edit the list of randomValueForBranches to include a few more numbers, maybe it looks like [1, 2, 3, 4, 5]
+and edit the logic to call the branches if branchValue >= 3 instead of == 3. This would mean that there is a 3/5 chance for both branches to be drawn instead of a 1/3 chance
+
+All of the other logic for calling the shapes looks good, as does the logic for the texture, so I don't see a reason to change it. 
