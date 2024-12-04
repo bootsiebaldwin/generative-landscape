@@ -11,21 +11,21 @@ color textColor, startbuttonColor, controlbuttonColor;
 int startrx = 725;
 int startry = 475;
 int startrw = 250;
-int startrh = 100;
+int startrh = 75;
 //pause button diamentions
-int pauserx = 1225;
-int pausery = 850;
+int pauserx = 1222;
+int pausery = 847;
 int pauserw = 75;
 int pauserh = 75;
 //settings button diamentions
-int settingsrx = 220;
-int settingsry = 850;
+int settingsrx = 218;
+int settingsry = 847;
 int settingsrw = 75;
 int settingsrh = 75;
 
 //exit button diamentions
 int exitbuttonrx = 1225;
-int exitbuttonry = 200;
+int exitbuttonry = 125;
 int exitbuttonrw = 50;
 int exitbuttonrh = 50;
 
@@ -39,7 +39,7 @@ void setup() {
   fullScreen();
 
 
-  background(200);
+  background(175);
 
   textColor = color(0);
   startbuttonColor = color(210);
@@ -153,7 +153,7 @@ void startButton() {
 }
 
 void pauseButton() {
-  stroke(2);
+  noStroke();
   fill(255);
   rect(pauserx, pausery, pauserw, pauserh);
   pauseButtonImg = loadImage("Pause_Button_.png");
@@ -161,7 +161,7 @@ void pauseButton() {
 }
 
 void settingsButton() {
-  stroke(2);
+  noStroke();
   fill(255);
   rect(settingsrx, settingsry, settingsrw, settingsrh);
   settingsButtonImg = loadImage("Settings_Button.png");
@@ -181,7 +181,7 @@ void screenshotButton() {
   stroke(2);
   fill(startbuttonColor);
   rectMode(CENTER);
-  rect(725, 550, 250, 60);
+  rect(725, 550, 260, 60);
   fill(0);
   textAlign(CENTER);
   textSize(18);
