@@ -96,8 +96,9 @@ void drawPawn1(float size, float rotation, int textureIndex){
   //apply the mask to the selected texture
   currentTexture.mask(shapeMask);
   
-  //add tint to image
-  tint(0, 153, 204);
+  //random tint and adds tint to image
+  int[] randRGB = calcRandomTint();
+  tint(randRGB[0], randRGB[1], randRGB[2]);
   
   //draw the image with the mask
   image(currentTexture, -width/2, -height/2);
@@ -174,6 +175,10 @@ void drawKing(float size, float rotation, int textureIndex){
   //apply the mask to the selected texture
   currentTexture.mask(shapeMask);
   
+  //random tint and adds tint to image
+  int[] randRGB = calcRandomTint();
+  tint(randRGB[0], randRGB[1], randRGB[2]);
+  
   //draw the image with the mask
   image(currentTexture, -width/2, -height/2);
 
@@ -206,6 +211,17 @@ void drawKing(float size, float rotation){
   popMatrix();
 }
 
+//gives random color value for image tint
+int[] calcRandomTint() {
+  int[] randomRGB = new int[3];
+  
+  randomRGB[0] = int(random(0,256));    //R
+  randomRGB[1] = int(random(0,256));    //G
+  randomRGB[2] = int(random(0,256));    //B
+  
+  return randomRGB;
+}
+
 
 // draw the shape recursively, currently only using drawPawn1 and drawKing
 // 
@@ -227,9 +243,6 @@ void recShape(float size, float recLevel, float rotation){
   int randomShapeVal;
   int randomRotVal;
   int randomTextureVal;
-  int randomTintRVal;
-  int randomTintBVal;
-  int randomTintGVal;
   
   int randomBranchVal;
   
