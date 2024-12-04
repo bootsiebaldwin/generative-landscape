@@ -39,7 +39,7 @@ void setup() {
   backgroundImg = loadImage("background.png");
   
   //random color palette
-  whichColorPalette = int((random(0,4)));
+  whichColorPalette = int(random(0,6));
 }
 
 //DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
@@ -63,6 +63,11 @@ void draw(){
   popMatrix();
   
   noLoop();
+  
+}
+
+void drawStaticAssets() {
+  
   
 }
 
@@ -220,6 +225,8 @@ void drawKing(float size, float rotation){
 int[] calcRandomTint() {
   int[] randomRGB = new int[3];      // holds RGB value  
   
+  whichColorPalette = 6;
+  
   if (whichColorPalette == 0) {
     // brick color palette
     int randomNum  = int(random(120,125));
@@ -260,6 +267,22 @@ int[] calcRandomTint() {
     randomRGB[0] = int(random(randomNum - 20, randomNum - 10));    //Red
     randomRGB[1] = randomRGB[0] - 20;                              //Green
     randomRGB[2] = int(random(randomNum + 10, randomNum + 60));    //Blue
+    
+  } else if (whichColorPalette == 5) {
+    // purple grey palette
+    int randomNum  = int(random(120,125));
+    
+    randomRGB[0] = int(random(randomNum - 40, randomNum-5));    //Red
+    randomRGB[1] = randomRGB[0];                                //Green
+    randomRGB[2] = int(random(randomNum, randomNum + 10));      //Blue
+  
+} else if (whichColorPalette == 6) {
+    // brown palette
+    int randomNum  = int(random(120,125));
+    
+    randomRGB[0] = int(random(randomNum, randomNum + 10));    //Red
+    randomRGB[1] = int(random(randomNum - 10, randomNum-5));  //Green
+    randomRGB[2] = randomRGB[1];      //Blue
   }
   
   return randomRGB;
