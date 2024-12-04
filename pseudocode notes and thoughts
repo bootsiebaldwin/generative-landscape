@@ -8,8 +8,8 @@ SO, for randomness of where the static png assets are, here is a list of the ran
                                                 moon_1 at (950, 225)
     This means that the moon rises and sets, waxes and wanes across the screen. If we have time, which I'm not certain if we will, the moon sprites can change as the simulation progresses
 
-The bushes and pine trees can be interchangeably placed when the simulation begins WITH THEIR BOTTOM LEFT CORNER AT 
-    [ (200, 700), (75, 650), (750, 675), (875, 690), (1000, 710) ] 
+The bushes and pine trees can be interchangeably placed when the simulation begins with their top left corner as the origin 
+    [ (120, 550), (75, 450), (750, 525), (875, 490), (990, 610) ] 
   I think it would be interesting if the foliage could be placed at all or none of them, so at draw time the algorithm goes through five times and picks either a 1 or a 2. If 1, nothing is drawn, if 2 something is drawn. Then it goes through if something is drawn and randomly picks the sprite drawn
 Again, I'm thinking that all of these assets can be called at draw time in the draw() function. While changes over time can be interesting, I'm not certain if we have the time for it right now. Also, adding randomness for what layer the sprites are drawn on would be nice and easy to implement if we 
 figure layers out. Just remember that the background is layer 0 and everything else is drawn in front of it, with the UI being the highest layer with nothing else on it
