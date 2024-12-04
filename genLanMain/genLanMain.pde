@@ -45,6 +45,13 @@ void setup() {
   cloudImgs = new PImage[]{ loadImage("Cloud_1.png"), loadImage("Cloud_2.png"), loadImage("Cloud_3.png"),
                             loadImage("Cloud_4.png")
                          };
+   
+                         
+  //resize bush images     
+  //having issues with current sizing!!!!
+  for(int i = 0; i < bushImgs.length; i++) { 
+    bushImgs[i].resize(width/4, height/4);
+  }
   
   //load test texture images
   img1 = loadImage("https://manytextures.com/download/69/texture/jpg/2048/rock-wall-2048x2048.jpg"); // Texture 1
@@ -69,7 +76,7 @@ void draw(){
   int baseTextureIndex = int(random(textures.length));
   
   if (loopCount == 0) {        //draws background on first iteration of draw()  
-    //random color palette
+    //random color palette -- for background image but may need work, not used right now
     whichColorPalette = int(random(0,6));
     int[] randRGB = calcRandomTint();
     
@@ -78,9 +85,13 @@ void draw(){
     
     tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
     image(backgroundImg, 0, 0);
+  
+    popMatrix();
     
-    tint(255, 255, 255); 
+    pushMatrix();
     
+    tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
+    drawStaticAssets();
     
     popMatrix();
   }
@@ -90,7 +101,6 @@ void draw(){
     whichColorPalette = int(random(0,6));
     
     pushMatrix();
-    //350, 325
     translate(600, 500);
     //rotate(PI);              //flips the entire shape
     
@@ -109,20 +119,30 @@ void draw(){
   
 }
 
+//---------draws assets-----------
 void drawStaticAssets() {
+  
+  //----tree/bush assets----
   int treeOrBushVal = int(random(0,2));   // if 0 -- tree, if 1 -- one of the bushes
+  int plantLocationOffset = 50;
   
   int[] plantLocationX = {120, 75,  750, 875, 990};
   int[] plantLocationY = {550, 450, 525, 490, 610};
   
+  //draws the trees or bushes at given points
   for(int i = 0; i < plantLocationX.length; i++) {
-    if (treeOrBushVal == 0) {
+    if (treeOrBushVal == 0) {              
+      image(pineTreeImg, plantLocationX[i],  plantLocationY[i]);
       
+    } else {
+      int randBushVal = int(random(0, bushImgs.length));
+      image(bushImgs[randBushVal], plantLocationX[i],  plantLocationY[i]);
     }
     
+    treeOrBushVal = int(random(0,2));
   }
   
-  
+  //additional assets
 }
 
 //DRAWS WITH TEXTURE
