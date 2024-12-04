@@ -1,0 +1,17 @@
+::)
+Given our current timeframe, I think it best to stick with the two shapes that we already have, the pawn and the king. This will minimize the amount of new code we will have to write, as opposed to trying to create new shapes AND the logic behind how they randomize and generate recursively
+SO, for randomness of where the static png assets are, here is a list of the random places that bushes and trees could be placed, either in front of or behind the castle.
+  Moon placement from drawing origin in center: moon_2 at (150, 200)
+                                                moon_4 at (350, 150)
+                                                moon_5 at (525, 75)
+                                                moon_3 at (750, 175)
+                                                moon_1 at (950, 225)
+    This means that the moon rises and sets, waxes and wanes across the screen. If we have time, which I'm not certain if we will, the moon sprites can change as the simulation progresses
+
+The bushes and pine trees can be interchangeably placed when the simulation begins WITH THEIR BOTTOM LEFT CORNER AT 
+    [ (200, 700), (75, 650), (750, 675), (875, 690), (1000, 710) ] 
+  I think it would be interesting if the foliage could be placed at all or none of them, so at draw time the algorithm goes through five times and picks either a 1 or a 2. If 1, nothing is drawn, if 2 something is drawn. Then it goes through if something is drawn and randomly picks the sprite drawn
+
+Now for the castle itself, where we have some interesting options in how to proceed with randomness that will help determine its shape and limit how wide it grows. If we find that through the randomness, it keeps growing too narrow, we can always generate more than one tree/tower/castle and move them
+around and layer them to work with each other. The height will be determined by the number of layers which I'd like to keep static, but with this logic I'm proposing the shape generated will not be a pyramid and has a chance of not reaching the final layer/level
+
