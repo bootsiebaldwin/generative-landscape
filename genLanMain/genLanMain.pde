@@ -10,7 +10,13 @@ PGraphics mask;
 PImage img1, img2, img3;
 PImage[] textures;
 
+//assets
 PImage backgroundImg;
+PImage[] bushImgs;
+PImage[] cloudImgs;
+PImage[] moonImgs;
+PImage[] dragonImgs;
+
 
 public void settings() {
   size(sizeX, sizeY);
@@ -19,7 +25,16 @@ void setup() {
   stroke(0); 
   frameRate(1); 
   
-  //load images
+  //background image
+  backgroundImg = loadImage("background.png");
+  
+  //load asset images
+  bushImgs = new PImage[]{ loadImage("Bush_1.png"), loadImage("Bush_2.png"), loadImage("Bush_3.png"),
+                           loadImage("Bush_4.png"), loadImage("Bush_5.png"), loadImage("Bush_6.png")
+                         };
+  
+  
+  //load test texture images
   img1 = loadImage("https://manytextures.com/download/69/texture/jpg/2048/rock-wall-2048x2048.jpg"); // Texture 1
   img2 = loadImage("https://www.tilingtextures.com/wp-content/uploads/2017/02/0012-scaled.jpg"); // Texture 2
   img3 = loadImage("https://i.pinimg.com/originals/52/2f/60/522f606c64525168201049babb6871f6.png"); // Texture 3
@@ -35,8 +50,6 @@ void setup() {
   //creates mask canvas
   mask = createGraphics(width, height);
   
-  //background
-  backgroundImg = loadImage("background.png");
   
   //random color palette
   whichColorPalette = int(random(0,6));
@@ -319,7 +332,7 @@ void recShape(float size, float recLevel, float rotation){
   int[] randomBranchVals = {0,1,2,3,4};
   
   int shapeTypeCount = 2;      // number of shapes, just makes it easier to only have to change one number when we add things
-  
+    
   //this stops the recursion -- once recLevel reaches 0
   if(recLevel > 0){
     //value determines random branch
