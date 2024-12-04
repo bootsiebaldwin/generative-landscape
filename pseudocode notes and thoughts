@@ -1,11 +1,11 @@
 ::)
 Given our current timeframe, I think it best to stick with the two shapes that we already have, the pawn and the king. This will minimize the amount of new code we will have to write, as opposed to trying to create new shapes AND the logic behind how they randomize and generate recursively
 SO, for randomness of where the static png assets are, here is a list of the random places that bushes and trees could be placed, either in front of or behind the castle.
-  Moon placement from drawing origin in center: moon_2 at (150, 200)
-                                                moon_4 at (350, 150)
-                                                moon_5 at (525, 75)
-                                                moon_3 at (750, 175)
-                                                moon_1 at (950, 225)
+  Moon placement from drawing origin in top left: moon_2 at (200, 250)
+                                                  moon_4 at (400, 200)
+                                                  moon_5 at (575, 125)
+                                                  moon_3 at (800, 225)
+                                                  moon_1 at (1000, 275)
     This means that the moon rises and sets, waxes and wanes across the screen. If we have time, which I'm not certain if we will, the moon sprites can change as the simulation progresses
 
 The bushes and pine trees can be interchangeably placed when the simulation begins with their top left corner as the origin 
