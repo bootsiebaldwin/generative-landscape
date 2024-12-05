@@ -88,9 +88,6 @@ TreeInfo[] trees = new TreeInfo[2]; // Trees that will appear with info
 int currentDepth = 0; // How big the tree will grow, I put it at zero for the "Stump"
 
 
-
-
-
 public void settings() {
   size(sizeX, sizeY);
 }
@@ -170,7 +167,6 @@ void setup() {
   // Creating two trees with random primes for which way the branches will grow (at an angle);
   trees[0] = new TreeInfo(width * 0.25, height, primes.get((int)random(primes.size())));
   trees[1] = new TreeInfo(width * 0.75, height, primes.get((int)random(primes.size())));
-   
    
    
   //creates mask canvas
@@ -360,7 +356,6 @@ void drawCastle() {
     //noLoop();
     
 }
-
 
 
 //---------draws assets-----------
