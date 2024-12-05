@@ -45,20 +45,28 @@ void setup() {
   cloudImgs = new PImage[]{ loadImage("Cloud_1.png"), loadImage("Cloud_2.png"), loadImage("Cloud_3.png"),
                             loadImage("Cloud_4.png")
                          };
-   
-   //bushImgs[0].resize(3000/10, 981/10);
-   //bushImgs[1].resize(3000/10, 981/10);
                          
+  moonImgs = new PImage[]{ loadImage("moon1.png"), loadImage("moon2.png"), loadImage("moon3.png"),
+                            loadImage("moon4.png"), loadImage("moon5.png")
+                         };
+                         
+  dragonImgs = new PImage[]{ loadImage("dragonFlying.png"), loadImage("Sleeping_dragon.png")};
+   
+  //---- RESIZING ASSETS THAT NEED IT ----                    
   //resize bush images     
-  //having issues with current sizing!!!!
   for(int i = 0; i < bushImgs.length; i++) { 
     bushImgs[i].resize(width/11, height/11);
   }
   
+  //resize cloud images
   for(int i = 0; i < cloudImgs.length; i++) { 
     cloudImgs[i].resize(width/11, height/11);
   }
   
+  dragonImgs[1].resize(width/10, height/10);      //this one was larger than the other dragon image so i scaled it down
+    
+  
+  //test texures:
   //load test texture images
   img1 = loadImage("https://manytextures.com/download/69/texture/jpg/2048/rock-wall-2048x2048.jpg"); // Texture 1
   img2 = loadImage("https://www.tilingtextures.com/wp-content/uploads/2017/02/0012-scaled.jpg"); // Texture 2
@@ -155,6 +163,14 @@ void drawStaticAssets() {
     treeOrBushVal = int(random(0,2));
   }
   
+  
+  //------ moon asset --------
+  //INSERT LOGIC HERE
+  //cloud asset logic is a good example for formatting adding images
+  //array of moon png -- moonImgs[] (length is 5)
+  
+  
+  
   //------ cloud assets --------
   //random placement of cloud objects in the sky
   for(int i = 0; i < 5; i++) {
@@ -163,7 +179,7 @@ void drawStaticAssets() {
     
     int randomCloudIndex = int(random(0, cloudImgs.length));        //random selection of cloud asset from image array
     
-    image(cloudImgs[randomCloudIndex], randX,  randY);
+    image(cloudImgs[randomCloudIndex], randX,  randY);              //places the selected cloud image
   }
   
   //additonal assets below---
