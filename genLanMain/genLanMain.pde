@@ -77,6 +77,7 @@ PImage[] cloudImgs;
 PImage[] moonImgs;
 
 PImage[] dragonImgs;
+PImage dragonLogo;
 
 PImage[] doorImgs;
 
@@ -114,7 +115,10 @@ void setup() {
                             loadImage("moon4.png"), loadImage("moon5.png")
                          };
                          
-  dragonImgs = new PImage[]{ loadImage("dragonFlying.png"), loadImage("Sleeping_dragon.png"), loadImage("smallbigdragon1.png")};
+  dragonImgs = new PImage[]{ loadImage("dragonFlying.png"), loadImage("Sleeping_dragon.png")};
+  
+  dragonLogo = loadImage("smallbigdragon1.png");
+  
   
   doorImgs = new PImage[]{ loadImage("door.png"), loadImage("Castle_door_1.png"), loadImage("Castle_door_2.png") };
   
@@ -136,9 +140,7 @@ void setup() {
   }
   
   dragonImgs[1].resize(width/10, height/10);      //this one was larger than the other dragon image so i scaled it down
-  
-  
-  
+    
   //resize textures images
   for(int i = 0; i < textures.length; i++) { 
     textures[i].resize(textureSize, textureSize);
@@ -173,7 +175,10 @@ void draw(){
     textFont(font);
     textAlign(LEFT);
     text("Recurrent Fantasy", 50, 50);
-
+    
+    noTint();
+    image(dragonLogo, 800, 0);
+    
     noStroke();
     rectMode(CENTER);
     fill(255);
@@ -225,6 +230,7 @@ void draw(){
         //text("Simulation has started.", 500, 300);
         pushMatrix();
         translate(displayWidth/2 - 1080/2, displayHeight/2 - 720/2);
+        image(doorImgs[1], 600,500);
         drawCastle();
         popMatrix();
       }
@@ -288,8 +294,12 @@ void drawCastle() {
     translate(600, 500);
     //rotate(PI);              //flips the entire shape
     
+    image(doorImgs[1], width/2, height/2);
+    
     stroke(0); 
     strokeWeight(1);
+    
+    //image(doorImgs[0], width/2, height/2);
     
     recShape(75, 6, HALF_PI);
     drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
@@ -298,6 +308,7 @@ void drawCastle() {
     popMatrix();
     
     //noLoop();
+    image(doorImgs[1], 600,500);
     
 }
 
@@ -305,6 +316,20 @@ void drawCastle() {
 
 //---------draws assets-----------
 void drawStaticAssets() {
+  //dragon assets
+  int whichDragon = int(random(0, dragonImgs.length));
+  
+   if (whichDragon == 0) {              
+     image(dragonImgs[0], 200, 75);
+     
+   } else if (whichDragon == 1) {              
+     image(dragonImgs[1], 220, 500);
+     
+   } else if (whichDragon == 2) {              
+     image(dragonImgs[2], 200, 75);
+   }
+   
+  
   
   //----tree/bush assets----
   int treeOrBushVal = int(random(0,2));   // if 0 -- tree, if 1 -- one of the bushes
