@@ -64,7 +64,7 @@ PGraphics mask;
 PImage img1, img2, img3;
 PImage[] textures;
 
-int textureSize = 1000;
+int textureSize = 1080;
 
  
 //------ main assets ------
@@ -203,7 +203,7 @@ void draw(){
     
     fill(0);
     textSize(24);
-    text("Simulation has started.", textLocationX, textLocationY);
+    //text("Simulation has started.", textLocationX, textLocationY);
     println("start sim");
     
     if (simRunAppear) {
@@ -238,7 +238,7 @@ void draw(){
       if (ifSimComplete) {
         fill(0);
         textSize(24);
-        text("Simulation complete.", textLocationX, textLocationY);
+        //text("Simulation complete.", textLocationX, textLocationY);
       }
     }
     
@@ -309,7 +309,7 @@ void drawStaticAssets() {
   int plantLocationOffset = 50;
   
   //predetermined coordinates for bush and tree objects
-  int[] plantLocationX = {120, 75,  750, 875, 990};
+  int[] plantLocationX = {120, 75,  750, 875, 900};
   int[] plantLocationY = {550, 450, 525, 490, 610};
   
   int[] randTintPlants = calcRandomTintPlants();
@@ -339,8 +339,8 @@ void drawStaticAssets() {
   //------ cloud assets --------
   //random placement of cloud objects in the sky
   for(int i = 0; i < 8; i++) {
-    float randX = random(0, sizeX);
-    float randY = random(0, 3*sizeY/8);
+    float randX = random(0, sizeX-600);
+    float randY = random(50, 3*sizeY/8);
     
     int randomCloudIndex = int(random(0, cloudImgs.length));        //random selection of cloud asset from image array
     
