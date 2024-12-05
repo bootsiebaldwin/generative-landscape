@@ -64,7 +64,7 @@ PGraphics mask;
 PImage img1, img2, img3;
 PImage[] textures;
 
-int textureSize = 1080;
+int textureSize = 300;
 
  
 //------ main assets ------
@@ -383,10 +383,6 @@ void drawStaticAssets() {
     image(cloudImgs[randomCloudIndex], randX,  randY);              //places the selected cloud image
   }
   
-  //additonal assets below---
-  
-  
-  
 }
 
 //DRAWS WITH TEXTURE
@@ -402,7 +398,7 @@ void drawPawn1(float size, float rotation, int textureIndex){
   shapeMask.fill(255);  // fills the defined area (affects transparency)
   
   shapeMask.pushMatrix();
-  shapeMask.translate(width / 2, height / 2);      //centers the shape
+  shapeMask.translate(textureSize / 2, textureSize / 2);      //centers the shape
   shapeMask.rotate(rotation);
   
   shapeMask.beginShape();
@@ -429,7 +425,7 @@ void drawPawn1(float size, float rotation, int textureIndex){
   tint(randRGB[0], randRGB[1], randRGB[2]);
   
   //draw the image with the mask
-  image(currentTexture, -width/2, -height/2);
+  image(currentTexture, -textureSize/2, -textureSize/2);
 }
 
 //this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
@@ -464,7 +460,7 @@ void drawKing(float size, float rotation, int textureIndex){
   shapeMask.fill(255);    // fills the defined area (affects transparency)
   
   shapeMask.pushMatrix();
-  shapeMask.translate(width / 2, height / 2);      //centers the shape
+  shapeMask.translate(textureSize / 2, textureSize / 2);      //centers the shape
   shapeMask.rotate(rotation);
   
   float fifthWidth = ((size*2 - size/2) + (size*2 - size/2)) / 5;
@@ -507,7 +503,7 @@ void drawKing(float size, float rotation, int textureIndex){
   tint(randRGB[0], randRGB[1], randRGB[2]);
   
   //draw the image with the mask
-  image(currentTexture, -width/2, -height/2);
+  image(currentTexture, -textureSize/2, -textureSize/2);
 
 }
 
@@ -557,7 +553,7 @@ void drawHexagon(float size, float rotation, int textureIndex){
   shapeMask.fill(255);  // fills the defined area (affects transparency)
   
   shapeMask.pushMatrix();
-  shapeMask.translate(width / 2, height / 2);      //centers the shape
+  shapeMask.translate(textureSize / 2, textureSize / 2);      //centers the shape
   shapeMask.rotate(rotation);
   
   shapeMask.beginShape();
@@ -584,7 +580,7 @@ void drawHexagon(float size, float rotation, int textureIndex){
   tint(randRGB[0], randRGB[1], randRGB[2]);
   
   //draw the image with the mask
-  image(currentTexture, -width/2, -height/2);
+  image(currentTexture, -textureSize/2, -textureSize/2);
 }
 
 //ORIGINAL WITH NO TEXTURE -- JUST LINES
