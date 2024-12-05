@@ -325,7 +325,33 @@ void drawCastle() {
 
 //---------draws assets-----------
 void drawStaticAssets() {
-  //dragon assets
+  
+  //------ moon asset --------
+  
+  int whichMoon = int(random(0, moonImgs.length));
+  
+  if (whichMoon == 0){
+    image(moonImgs[0], 700, 70);
+  }
+  
+  else if (whichMoon == 1){
+    image(moonImgs[1], 20, 50);
+  }
+  
+  else if (whichMoon == 2){
+    image(moonImgs[2], 600, 30);
+  }
+  
+  else if (whichMoon == 3){
+    image(moonImgs[3], 150, 20);
+  }
+  
+  else if (whichMoon == 4){
+    image(moonImgs[4], 375, 15);
+  }
+  
+  
+  //------ dragon assets ------
   int whichDragon = int(random(0, dragonImgs.length));
   
    if (whichDragon == 0) {              
@@ -338,7 +364,6 @@ void drawStaticAssets() {
      image(dragonImgs[2], 200, 75);
    }
    
-  
   
   //----tree/bush assets----
   int treeOrBushVal = int(random(0,2));   // if 0 -- tree, if 1 -- one of the bushes
@@ -363,13 +388,6 @@ void drawStaticAssets() {
     
     treeOrBushVal = int(random(0,2));
   }
-  
-  
-  //------ moon asset --------
-  //INSERT LOGIC HERE
-  //cloud asset logic is a good example for formatting adding images
-  //array of moon png -- moonImgs[] (length is 5)
-  
   
   
   //------ cloud assets --------
