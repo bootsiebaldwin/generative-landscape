@@ -1,5 +1,57 @@
-int sizeX = 1080; 
-int sizeY = 720;
+//VARIABLES FROM UI
+
+boolean start = false;
+boolean pause = false;
+boolean settings = false;
+boolean restart = false;
+boolean information = false;
+boolean screenshot = false;
+
+boolean running = false;
+boolean simRunAppear = false;
+boolean ifSimComplete = false;
+
+
+color textColor, startbuttonColor, controlbuttonColor;
+//start button diamentions
+int startrx = 725;
+int startry = 475;
+int startrw = 250;
+int startrh = 75;
+//pause button diamentions
+int pauserx = 1222;
+int pausery = 847;
+int pauserw = 75;
+int pauserh = 75;
+//settings button diamentions
+int settingsrx = 218;
+int settingsry = 847;
+int settingsrw = 75;
+int settingsrh = 75;
+
+//exit button diamentions
+int exitbuttonrx = 1225;
+int exitbuttonry = 125;
+int exitbuttonrw = 50;
+int exitbuttonrh = 50;
+
+//button images
+PImage settingsButtonImg;
+PImage pauseButtonImg;
+PImage exitButtonImg;
+
+//FONT
+PFont font;
+
+float textLocationX = 480;
+float textLocationY = 175;
+
+
+
+//MAIN SCENE VARIABLES
+
+int sizeX = 1600; 
+int sizeY = 1080;
 
 //possible rotation values of the shapes
 float[] rotations = {0, PI, PI/2, 3*PI/2};            //right now I have all the shapes staying the same rotation or upside down
@@ -12,7 +64,7 @@ PGraphics mask;
 PImage img1, img2, img3;
 PImage[] textures;
 
-int textureSize = 640;
+int textureSize = 1000;
 
  
 //------ main assets ------
@@ -29,12 +81,18 @@ PImage[] dragonImgs;
 PImage[] doorImgs;
 
 
-public void sceneSettings() {
+public void settings() {
   size(sizeX, sizeY);
 }
-void sceneSetup() {
+
+
+void setup() {
+  //UI SET UP
+  //fullScreen();
+  font = createFont("Retro Gaming.ttf", 48);
+  
   stroke(0); 
-  frameRate(1); 
+  frameRate(10); 
   println("setting up ");
   
   //background image
@@ -106,41 +164,130 @@ void sceneSetup() {
 }
 
 //DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
-void drawScene(){
-   println("drawing scene");
-  int baseTextureIndex = int(random(textures.length));
-  
-  if (loopCount == 0) {        //draws background on first iteration of draw()  
-    //random color palette -- for background image but may need work, not used right now
-    whichColorPalette = int(random(0,6));
-    int[] randRGB = calcRandomTint();
+void draw(){
+  if (!start) {
+    background(200);
+    fill(textColor);
+    textFont(font);
+    textAlign(LEFT);
+    text("Recurrent Fantasy", 50, 50);
+
+    noStroke();
+    rectMode(CENTER);
+    fill(255);
+    rect(displayWidth/2, displayHeight/2, 1080, 720);
     
-    //draw background of scene
-    pushMatrix();
+    fill(0);
+    textSize(24); 
+    text("Press [space] to generate", displayWidth/4, displayHeight/2);
     
-    int[] randTintBackground = calcRandomTintBackground();
-    tint(randTintBackground[0], randTintBackground[1], randTintBackground[2]);
-    
-    //tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
-    image(backgroundImg, 0, 0);
-  
-    popMatrix();
-    
-    pushMatrix();
-    
-    tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
-    drawStaticAssets();
-    
-    popMatrix();
+    //startButton();
+    loopCount = 0;
   }
   
-  if (loopCount == 1) {           //draws castle on second iteration of draw() then stops loop
+  if (start && !pause) {
+    //program screen
+    noStroke();
+    rectMode(CENTER);
+    fill(255);
+    if (!simRunAppear) { 
+      rect(displayWidth/2, displayHeight/2, 1080, 720);
+    }
+    
+    //pause and setting button
+    //pauseButton();
+    //settingsButton();
+    
+    //other stuff for simulation can happen here
+    
+    
+    fill(0);
+    textSize(24);
+    text("Simulation has started.", textLocationX, textLocationY);
+    println("start sim");
+    
+    if (simRunAppear) {
+      running = true;
+      
+      if (loopCount == 0) {           //draws castle on second iteration of draw() then stops loop
+        pushMatrix();
+        translate(displayWidth/2 - 1080/2, displayHeight/2 - 720/2);
+        //translate(displayWidth/2 - 1080/2, displayHeight/2 - 720/2);
+        drawBackgroundAndAssets();
+        popMatrix();
+      }
+      
+      //loopCount++;
+      
+      if (loopCount == 1) {           //draws castle on second iteration of draw() then stops loop
+        //text("Simulation has started.", 500, 300);
+        pushMatrix();
+        translate(displayWidth/2 - 1080/2, displayHeight/2 - 720/2);
+        drawCastle();
+        popMatrix();
+      }
+      
+       loopCount++;
+      
+      if (loopCount < 2){
+        running = false;
+        ifSimComplete = true;
+        //noLoop()
+      }  
+      
+      if (ifSimComplete) {
+        fill(0);
+        textSize(24);
+        text("Simulation complete.", textLocationX, textLocationY);
+      }
+    }
+    
+    simRunAppear = true;
+  }
+  
+  
+  //idea: could insert tree iteration to run after loop count > 0, so we see growth 
+  
+}
+
+// CALLED IN DRAW()---------
+void drawBackgroundAndAssets() {
+  //random color palette -- for background image but may need work, not used right now
+  whichColorPalette = int(random(0,6));
+  int[] randRGB = calcRandomTint();
+  
+  //draw background of scene
+  pushMatrix();
+  
+  int[] randTintBackground = calcRandomTintBackground();
+  tint(randTintBackground[0], randTintBackground[1], randTintBackground[2]);
+  
+  //tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
+  image(backgroundImg, 0, 0);
+
+  popMatrix();
+  
+  pushMatrix();
+  
+  tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
+  drawStaticAssets();
+  
+  popMatrix();
+}
+
+void drawCastle() {
+  int baseTextureIndex = int(random(textures.length));
     //new color palette for castle specifically
     whichColorPalette = int(random(0,6));
+    
+    println("castle drawing");
     
     pushMatrix();
     translate(600, 500);
     //rotate(PI);              //flips the entire shape
+    
+    stroke(0); 
+    strokeWeight(1);
     
     recShape(75, 6, HALF_PI);
     drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
@@ -149,20 +296,10 @@ void drawScene(){
     popMatrix();
     
     //noLoop();
-  }
-  
-  loopCount++;
-  
-  if (loopCount < 2){
-    println("next loop");
-    drawScene();
-  } else {
-    println("end");
-  }
-  
-  //idea: could insert tree iteration to run after loop count > 0, so we see growth 
-  
+    
 }
+
+
 
 //---------draws assets-----------
 void drawStaticAssets() {
@@ -623,9 +760,155 @@ void recShape(float size, float recLevel, float rotation){
         drawKing(size/rateOfSize, rotations[randomRotVal], randomTextureVal);     //with random rotation
         drawKing(size/rateOfSize, rotations[randomRotVal]); 
       }
+      
       recShape(size/rateOfSize, recLevel-1, -rotation/2);        //***recursive call
       popMatrix();
     }
   }
   
+}
+
+
+//-----------UI Elements--------------
+
+
+void startButton() {
+  //start button
+  stroke(2);
+  fill(startbuttonColor);
+  rect(startrx, startry, startrw, startrh);
+  //start text
+  fill(0);
+  textSize(24);
+  text("Start Simulation", (startrx - 125), startry);
+}
+
+void pauseButton() {
+  noStroke();
+  fill(255);
+  rect(pauserx, pausery, pauserw, pauserh);
+  pauseButtonImg = loadImage("Pause_Button_.png");
+  image(pauseButtonImg, pauserx - 40, pausery - 37, pauserw, pauserh);
+}
+
+void settingsButton() {
+  noStroke();
+  fill(255);
+  rect(settingsrx, settingsry, settingsrw, settingsrh);
+  settingsButtonImg = loadImage("Settings_Button.png");
+  image(settingsButtonImg, settingsrx - 40, settingsry - 37, 75, 75);
+}
+void restartButton() {
+  stroke(2);
+  fill(startbuttonColor);
+  rectMode(CENTER);
+  rect(725, 450, 220, 60);
+  fill(0);
+  textAlign(CENTER);
+  textSize(18);
+  text("Restart simulation", 725, 460);
+}
+void screenshotButton() {
+  stroke(2);
+  fill(startbuttonColor);
+  rectMode(CENTER);
+  rect(725, 550, 260, 60);
+  fill(0);
+  textAlign(CENTER);
+  textSize(18);
+  text("Screenshot simulation", 725, 560);
+}
+void infoButton() {
+  stroke(2);
+  fill(startbuttonColor);
+  rectMode(CENTER);
+  rect(725, 650, 220, 60);
+  fill(0);
+  textAlign(CENTER);
+  textSize(18);
+  text("Information", 725, 660);
+}
+
+void exitButton() {
+  stroke(2);
+  fill(255);
+  rect(exitbuttonrx, exitbuttonry, exitbuttonrw, exitbuttonrh);
+  exitButtonImg = loadImage("exit_button.png");
+  image(exitButtonImg, exitbuttonrx - 25, exitbuttonry - 25, exitbuttonrh, exitbuttonrw);
+}
+
+
+void mousePressed() {
+  //mouse fucntion for start button
+  if (mouseX >= startrx -10 &&  mouseX <= (startrx -10) + (startrw - 10) &&
+    mouseY >= startry -10 && mouseY <= (startry - 10) + (startrh - 10)) {
+    start = true;
+  }
+
+  //mouse fucntion for pause button
+  if (mouseX >= pauserx && mouseX < pauserx + pauserw
+    && mouseY >= pausery && mouseY <= pausery + pauserh) {
+    pause = !pause;
+  }
+  //mouse fucntion for settings button
+  if (mouseX >= settingsrx - 10 && mouseX < (settingsrx - 10) + (settingsrw - 10)
+    && mouseY >= settingsry - 10 && mouseY <= (settingsry - 10) + (settingsrh -10)) {
+    settings = !settings;
+  }
+
+  //mouse function for restart button
+  if (settings) {
+    
+      if (mouseX >= 725 - 10 && mouseX < (725 - 10) + (220 - 10) && mouseY >= 460-10 &&
+        mouseY <= (460 - 10) + (60 - 10)) {
+        start = false;
+        pause = false;
+        settings = false;
+        restart = false;
+        information = false;
+        screenshot = false;
+        //program screen
+        noStroke();
+        rectMode(CENTER);
+        fill(255);
+        rect(displayWidth/2, displayHeight/2, 1080, 720);
+      }
+
+      //mouse fucntion for screenshot button
+      if (mouseX >= 725 - 10 && mouseX < (725 - 10) + (240 - 10) && mouseY >= 550-10 &&
+        mouseY <= (550 - 10) + (60 - 10)) {
+        screenshot = !screenshot;
+      }
+      //mouse function for info button
+      if (mouseX >= 725 - 10 && mouseX < (725 - 10) + (220 - 10) && mouseY >= 650-10 &&
+        mouseY <= (650 - 10) + (60 - 10)) {
+        information = !information;
+      }
+      //mouse function for exit button
+    if (mouseX >= exitbuttonrx - 10 && mouseX < (exitbuttonrx - 10) + (exitbuttonrw - 10) &&
+      mouseY >= (exitbuttonry-10) && mouseY <= (exitbuttonry - 10) + (exitbuttonrh - 10)) {
+      if (information) {
+        information = false;
+      } else if (settings) {
+        settings = false;
+      } else if (screenshot) {
+        screenshot = false;
+      }
+
+    }
+  }
+}
+
+
+void keyPressed() {
+  if (key == ' ') {
+    println("space bar");
+    
+    if(!start) {
+      start = true;
+    } else {
+      start = false;
+      simRunAppear = false;
+    }
+  }
 }
