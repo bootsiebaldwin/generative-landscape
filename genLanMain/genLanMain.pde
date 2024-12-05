@@ -999,6 +999,15 @@ void keyPressed() {
     } else {
       start = false;
       simRunAppear = false;
+      
+      //----- RECURSIVE TREE SET UP------
+      // Starting prime numbers that'll be generated
+      primes = generatePrimes(20);
+    
+      // Creating two trees with random primes for which way the branches will grow (at an angle);
+      trees[0] = new TreeInfo(width * 0.25, height, primes.get((int)random(primes.size())));
+      trees[1] = new TreeInfo(width * 0.75, height, primes.get((int)random(primes.size())));
+ 
     }
   }
 }
