@@ -181,7 +181,7 @@ void draw(){
     fill(textColor);
     textFont(font);
     textAlign(LEFT);
-    text("Recurrent Fantasy", 50, 50);
+    text("Recurrent Fantasy", 50, 100);
     
     noTint();
     image(dragonLogo, 800, 0);
@@ -311,7 +311,7 @@ void drawCastle() {
     stroke(0); 
     strokeWeight(1);
         
-    recShape(75, 6, HALF_PI);
+    recShape(75, 7, HALF_PI);
     drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
     drawPawn1(75, 0);
     
