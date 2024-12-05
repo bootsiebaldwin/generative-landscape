@@ -81,6 +81,15 @@ PImage dragonLogo;
 
 PImage[] doorImgs;
 
+//----- RECURSIVE TREE DATA-----
+int maxDepth = 10; // This is the base case
+ArrayList<Integer> primes; // Data structure to store list of prime numbers
+TreeInfo[] trees = new TreeInfo[2]; // Trees that will appear with info
+int currentDepth = 0; // How big the tree will grow, I put it at zero for the "Stump"
+
+
+
+
 
 public void settings() {
   size(sizeX, sizeY);
@@ -153,22 +162,17 @@ void setup() {
     textures[i].resize(textureSize, textureSize);
   }
   
-    
-  /*
-  //test texures:
-  //load test texture images
-  img1 = loadImage("https://manytextures.com/download/69/texture/jpg/2048/rock-wall-2048x2048.jpg"); // Texture 1
-  img2 = loadImage("https://www.tilingtextures.com/wp-content/uploads/2017/02/0012-scaled.jpg"); // Texture 2
-  img3 = loadImage("https://i.pinimg.com/originals/52/2f/60/522f606c64525168201049babb6871f6.png"); // Texture 3
   
-  //resize images
-  img1.resize(sizeX, sizeY); 
-  img2.resize(sizeX, sizeY); 
-  img3.resize(sizeX, sizeY); 
-  
-  //array of textures
-  textures = new PImage[]{img1, img2, img3};
-  */
+  //----- RECURSIVE TREE SET UP------
+  // Starting prime numbers that'll be generated
+  primes = generatePrimes(20);
+
+  // Creating two trees with random primes for which way the branches will grow (at an angle);
+  trees[0] = new TreeInfo(width * 0.25, height, primes.get((int)random(primes.size())));
+  trees[1] = new TreeInfo(width * 0.75, height, primes.get((int)random(primes.size())));
+   
+   
+   
   //creates mask canvas
   mask = createGraphics(width, height);
   
@@ -229,6 +233,8 @@ void draw(){
         //translate(displayWidth/2 - 1080/2, displayHeight/2 - 720/2);
         drawBackgroundAndAssets();
         popMatrix();
+        
+        loopCount++;
       }
       
       //loopCount++;
@@ -247,11 +253,31 @@ void draw(){
           image(doorImgs[2], 518, 468);
           
         popMatrix();
+        loopCount++;
       }
       
-       loopCount++;
+       //loopCount++;
+       
       
-      if (loopCount < 2){
+      
+      // ------ Draw recursive tree structures --------
+      for (TreeInfo tree : trees) {
+        pushMatrix();
+        translate(tree.x, tree.y);
+        drawTree(75, 0, tree.primeAngle + 3, currentDepth); // Increased initial branch length and width of stump
+        popMatrix();
+      }
+    
+      // Increase depth after each frame until max depth is reached
+      if (currentDepth < maxDepth) {
+        currentDepth++;
+      } else {
+        loopCount++;
+      }
+      //////////////
+        
+        
+      if (loopCount > 1){
         running = false;
         ifSimComplete = true;
         //noLoop()
@@ -262,8 +288,8 @@ void draw(){
         textSize(24);
         //text("Simulation complete.", textLocationX, textLocationY);
       }
+      
     }
-    
     simRunAppear = true;
   }
   
@@ -960,5 +986,64 @@ void keyPressed() {
       start = false;
       simRunAppear = false;
     }
+  }
+}
+
+//tree functions
+
+void drawTree(float len, int depth, int angle, int limit) {
+  if (depth >= limit) return;
+
+  pushStyle();  // Save current style settings
+  if (depth < 6) {
+    stroke(155, 105, 60); 
+    strokeWeight(7 - depth); 
+  } else {
+    stroke(0, 100, 0); 
+    strokeWeight(6); 
+  }
+
+  line(0, 0, 0, -len);
+  translate(0, -len);
+
+  pushMatrix();
+  rotate(radians(angle));
+  drawTree(len * 0.6, depth + 1, angle, limit);
+  popMatrix();
+
+  pushMatrix();
+  rotate(radians(-angle));
+  drawTree(len * 0.6, depth + 1, angle, limit);
+  popMatrix();
+
+  translate(0, len);
+  popStyle();  // Restore previous style settings
+}
+
+ArrayList<Integer> generatePrimes(int limit) {
+  ArrayList<Integer> primeList = new ArrayList<Integer>();
+  int count = 2;
+  while (primeList.size() < limit) {
+    if (isPrime(count)) primeList.add(count);
+    count++;
+  }
+  return primeList;
+}
+
+boolean isPrime(int n) {
+  if (n < 2) return false;
+  for (int i = 2; i * i <= n; i++) {
+    if (n % i == 0) return false;
+  }
+  return true;
+}
+
+class TreeInfo {
+  float x, y;
+  int primeAngle;
+  TreeInfo(float x, float y, int primeAngle) {
+    this.x = x;
+    this.y = y;
+    this.primeAngle = primeAngle;
   }
 }
