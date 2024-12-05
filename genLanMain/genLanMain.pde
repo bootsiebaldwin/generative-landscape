@@ -102,7 +102,7 @@ void setup() {
   font = createFont("Retro Gaming.ttf", 48);
   
   stroke(0); 
-  frameRate(10); 
+  frameRate(1); 
   println("setting up ");
   
   //background image
@@ -264,13 +264,13 @@ void draw(){
      // pushMatrix();
       for (TreeInfo tree : trees) {
         pushMatrix();
-        translate(60, -160);
+        translate(60, -165);        //changes the onscreen location of tree
         
         pushMatrix();
         translate(tree.x, tree.y);
         drawTree(75, 0, tree.primeAngle + 3, currentDepth); // Increased initial branch length and width of stump
-         popMatrix();
-         popMatrix();
+        popMatrix();
+        popMatrix();
       }
       //popMatrix();
       
