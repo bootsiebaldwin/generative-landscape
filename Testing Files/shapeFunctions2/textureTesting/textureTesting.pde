@@ -86,7 +86,7 @@ void recursiveDraw(float xCenter, float yCenter, float size, int recLevel) {
     //-----insert something similar to above with drawing random shapes
     // but minus the recursive calls to recursiveDraw()-----
     
-    //int randTextureIndex = int(random(textures.length)); //random texture from the list of textures
+     //random texture from the list of textures
     recPawn1(xCenter - size * 1.5, yCenter - size * 2, size / 2, recLevel - 1, randTextureIndex);
     recPawn1(xCenter + size * 1.5, yCenter - size * 2, size / 2, recLevel - 1, randTextureIndex);
   }

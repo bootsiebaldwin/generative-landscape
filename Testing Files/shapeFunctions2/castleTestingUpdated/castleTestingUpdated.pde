@@ -48,6 +48,7 @@ void drawPawn1(float size, float rotation){
   popMatrix();
 }
 
+//this function draws the basic king shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
 void drawKing(float size, float rotation){
   pushMatrix();
   rotate(rotation);
