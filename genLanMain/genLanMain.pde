@@ -139,7 +139,14 @@ void setup() {
     cloudImgs[i].resize(width/11, height/11);
   }
   
+  //resize cloud images
+  for(int i = 1; i < doorImgs.length; i++) { 
+    doorImgs[i].resize(width/10, height/10);
+  }
+  
+  
   dragonImgs[1].resize(width/10, height/10);      //this one was larger than the other dragon image so i scaled it down
+  dragonImgs[0].resize(2*173, 2*134); 
     
   //resize textures images
   for(int i = 0; i < textures.length; i++) { 
@@ -228,10 +235,17 @@ void draw(){
       
       if (loopCount == 1) {           //draws castle on second iteration of draw() then stops loop
         //text("Simulation has started.", 500, 300);
+        int whichDoor = int(random(0,2));
+        
         pushMatrix();
         translate(displayWidth/2 - 1080/2, displayHeight/2 - 720/2);
-        image(doorImgs[1], 600,500);
         drawCastle();
+        
+        if (whichDoor == 0)
+          image(doorImgs[1], 518, 468);
+         else 
+          image(doorImgs[2], 518, 468);
+          
         popMatrix();
       }
       
@@ -294,13 +308,9 @@ void drawCastle() {
     translate(600, 500);
     //rotate(PI);              //flips the entire shape
     
-    image(doorImgs[1], width/2, height/2);
-    
     stroke(0); 
     strokeWeight(1);
-    
-    //image(doorImgs[0], width/2, height/2);
-    
+        
     recShape(75, 6, HALF_PI);
     drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
     drawPawn1(75, 0);
@@ -308,7 +318,6 @@ void drawCastle() {
     popMatrix();
     
     //noLoop();
-    image(doorImgs[1], 600,500);
     
 }
 
@@ -366,8 +375,8 @@ void drawStaticAssets() {
   //------ cloud assets --------
   //random placement of cloud objects in the sky
   for(int i = 0; i < 8; i++) {
-    float randX = random(0, sizeX-600);
-    float randY = random(50, 3*sizeY/8);
+    float randX = random(0, sizeX-700);
+    float randY = random(50, sizeY/4);
     
     int randomCloudIndex = int(random(0, cloudImgs.length));        //random selection of cloud asset from image array
     
@@ -683,7 +692,7 @@ int[] calcRandomTintPlants() {
 int[] calcRandomTintBackground() {
   int[] randomRGB = new int[3];      // holds RGB value   
 
-  int randomNum  = int(random(210,230));
+  int randomNum  = int(random(200,230));
   
   randomRGB[0] = int(random(randomNum - 5, randomNum + 10));    //Red
   randomRGB[1] = int(random(randomNum - 5, randomNum + 10));  //Green
