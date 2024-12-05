@@ -46,11 +46,17 @@ void setup() {
                             loadImage("Cloud_4.png")
                          };
    
+   //bushImgs[0].resize(3000/10, 981/10);
+   //bushImgs[1].resize(3000/10, 981/10);
                          
   //resize bush images     
   //having issues with current sizing!!!!
   for(int i = 0; i < bushImgs.length; i++) { 
-    bushImgs[i].resize(width/4, height/4);
+    bushImgs[i].resize(width/11, height/11);
+  }
+  
+  for(int i = 0; i < cloudImgs.length; i++) { 
+    cloudImgs[i].resize(width/11, height/11);
   }
   
   //load test texture images
@@ -83,7 +89,10 @@ void draw(){
     //draw background of scene
     pushMatrix();
     
-    tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
+    int[] randTintBackground = calcRandomTintBackground();
+    tint(randTintBackground[0], randTintBackground[1], randTintBackground[2]);
+    
+    //tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
     image(backgroundImg, 0, 0);
   
     popMatrix();
@@ -126,8 +135,12 @@ void drawStaticAssets() {
   int treeOrBushVal = int(random(0,2));   // if 0 -- tree, if 1 -- one of the bushes
   int plantLocationOffset = 50;
   
+  //predetermined coordinates for bush and tree objects
   int[] plantLocationX = {120, 75,  750, 875, 990};
   int[] plantLocationY = {550, 450, 525, 490, 610};
+  
+  int[] randTintPlants = calcRandomTintPlants();
+  tint(randTintPlants[0], randTintPlants[1], randTintPlants[2]);
   
   //draws the trees or bushes at given points
   for(int i = 0; i < plantLocationX.length; i++) {
@@ -142,7 +155,21 @@ void drawStaticAssets() {
     treeOrBushVal = int(random(0,2));
   }
   
-  //additional assets
+  //------ cloud assets --------
+  //random placement of cloud objects in the sky
+  for(int i = 0; i < 5; i++) {
+    float randX = random(0, sizeX);
+    float randY = random(0, sizeY/2);
+    
+    int randomCloudIndex = int(random(0, cloudImgs.length));        //random selection of cloud asset from image array
+    
+    image(cloudImgs[randomCloudIndex], randX,  randY);
+  }
+  
+  //additonal assets below---
+  
+  
+  
 }
 
 //DRAWS WITH TEXTURE
@@ -297,6 +324,76 @@ void drawKing(float size, float rotation){
   
 }
 
+//DRAWS WITH TEXTURE
+//this function draws the basic a hexagon shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
+void drawHexagon(float size, float rotation, int textureIndex){
+  //get texture which texture given the random index
+  PImage currentTexture = textures[textureIndex]; 
+  
+  float hexWidthVal = 1.5;
+  float hexTopWidVal = hexWidthVal - hexWidthVal / 4;
+  float hexBotWidVal = hexWidthVal - hexWidthVal / 2;
+  
+  //create a separate masks for each shape
+  PGraphics shapeMask = createGraphics(width, height);
+  shapeMask.beginDraw();
+  shapeMask.stroke(255);  
+  shapeMask.fill(255);  // fills the defined area (affects transparency)
+  
+  shapeMask.pushMatrix();
+  shapeMask.translate(width / 2, height / 2);      //centers the shape
+  shapeMask.rotate(rotation);
+  
+  shapeMask.beginShape();
+  
+  //each point of the pawn shape in clock wise order
+  shapeMask.vertex(-size * hexWidthVal, size-size); 
+  shapeMask.vertex(-size * hexTopWidVal, -size);
+  shapeMask.vertex(size * hexTopWidVal, -size);
+  shapeMask.vertex(size * hexWidthVal, size-size);
+  shapeMask.vertex(size * hexBotWidVal, size);
+  shapeMask.vertex(-size * hexBotWidVal, size);
+  
+  
+  shapeMask.endShape(CLOSE);  //close the shape
+  
+  shapeMask.popMatrix();
+  shapeMask.endDraw();
+  
+  //apply the mask to the selected texture
+  currentTexture.mask(shapeMask);
+  
+  //random tint and adds tint to image
+  int[] randRGB = calcRandomTint();
+  tint(randRGB[0], randRGB[1], randRGB[2]);
+  
+  //draw the image with the mask
+  image(currentTexture, -width/2, -height/2);
+}
+
+//ORIGINAL WITH NO TEXTURE -- JUST LINES
+void drawHexagon(float size, float rotation){
+  pushMatrix();
+  
+  float hexWidthVal = 1.6;
+  float hexTopWidVal = hexWidthVal - hexWidthVal / 4;
+  float hexBotWidVal = hexWidthVal - hexWidthVal / 2;
+  
+  rotate(rotation);
+
+  //prong lines
+  line((-size * hexWidthVal), size-size, -(size * hexTopWidVal), -size);
+  line(-(size * hexTopWidVal), -size, (size * hexTopWidVal), -size); 
+  line((size * hexTopWidVal), -size, size * hexWidthVal, size-size);
+  line(size * hexWidthVal, size-size, (size * hexBotWidVal), size);
+  line((size * hexBotWidVal), size, -(size * hexBotWidVal), size);
+  line(-(size * hexBotWidVal), size, (-size * hexWidthVal), size-size);
+  
+  popMatrix();
+  
+}
+
+
 //gives random color value for image tint
 int[] calcRandomTint() {
   int[] randomRGB = new int[3];      // holds RGB value  
@@ -358,9 +455,33 @@ int[] calcRandomTint() {
     
     randomRGB[0] = int(random(randomNum, randomNum + 10));    //Red
     randomRGB[1] = int(random(randomNum - 10, randomNum-5));  //Green
-    randomRGB[2] = randomRGB[1];      //Blue
+    randomRGB[2] = randomRGB[1];                              //Blue
   }
   
+  return randomRGB;
+}
+
+int[] calcRandomTintPlants() {
+  int[] randomRGB = new int[3];      // holds RGB value   
+
+  int randomNum  = int(random(230,240));
+  
+  randomRGB[0] = int(random(randomNum - 10, randomNum));    //Red
+  randomRGB[1] = int(random(randomNum - 5, randomNum + 10));  //Green
+  randomRGB[2] = randomRGB[0];      
+    
+  return randomRGB;
+}
+
+int[] calcRandomTintBackground() {
+  int[] randomRGB = new int[3];      // holds RGB value   
+
+  int randomNum  = int(random(210,230));
+  
+  randomRGB[0] = int(random(randomNum - 5, randomNum + 10));    //Red
+  randomRGB[1] = int(random(randomNum - 5, randomNum + 10));  //Green
+  randomRGB[2] = int(random(randomNum - 5, randomNum + 10));      
+    
   return randomRGB;
 }
 
@@ -390,7 +511,7 @@ void recShape(float size, float recLevel, float rotation){
   
   int[] randomBranchVals = {0,1,2,3,4};
   
-  int shapeTypeCount = 2;      // number of shapes, just makes it easier to only have to change one number when we add things
+  int shapeTypeCount = 3;      // number of shapes, just makes it easier to only have to change one number when we add things
     
   //this stops the recursion -- once recLevel reaches 0
   if(recLevel > 0){
@@ -421,7 +542,13 @@ void recShape(float size, float recLevel, float rotation){
         //drawKing(size/rateOfSize, rotation/2);                 //original line of code for rotation
         drawKing(size/rateOfSize, rotations[randomRotVal], randomTextureVal);      //with random rotation
         drawKing(size/rateOfSize, rotations[randomRotVal]);
+        
+      }  else if (randomShapeVal == 2) {
+        //drawHexagon(size/rateOfSize, rotation/2);                 //original line of code for rotation
+        drawHexagon(size/rateOfSize, rotations[randomRotVal], randomTextureVal);      //with random rotation
+        drawHexagon(size/rateOfSize, rotations[randomRotVal]);
       }
+      
       
       recShape(size/rateOfSize, recLevel-1, rotation/2);    //***recursive call
       popMatrix();
