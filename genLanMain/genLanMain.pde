@@ -261,18 +261,29 @@ void draw(){
       
       
       // ------ Draw recursive tree structures --------
+      pushMatrix();
+      translate(0, -100);
       for (TreeInfo tree : trees) {
         pushMatrix();
         translate(tree.x, tree.y);
         drawTree(75, 0, tree.primeAngle + 3, currentDepth); // Increased initial branch length and width of stump
-        popMatrix();
+         popMatrix();
       }
-    
+      popMatrix();
+      
+      //cover up previous text 
+      fill(200); 
+      noStroke();
+      rect(0, 0, 1500, 100);
+      
+      // Display information about the trees (depth, angles, etc.).
+      displayTreeInfo();
+      
       // Increase depth after each frame until max depth is reached
       if (currentDepth < maxDepth) {
         currentDepth++;
       } else {
-        loopCount++;
+        loopCount++;    //stops the sim
       }
       //////////////
         
@@ -1045,5 +1056,21 @@ class TreeInfo {
     this.x = x;
     this.y = y;
     this.primeAngle = primeAngle;
+  }
+}
+
+// Display information about each tree's position, angle, and depth.
+void displayTreeInfo() {
+  fill(0); // Black text color.
+  textSize(12); // Small text size.
+  int yOffset = 15; // Vertical spacing for each line of text.
+  for (int i = 0; i < trees.length; i++) {
+    TreeInfo tree = trees[i]; // Get the current tree's information.
+    text(
+      "Tree " + (i + 1) + ": Position (" + (int)tree.x + ", " + (int)tree.y + 
+      "), Prime Angle: " + tree.primeAngle + "°, Current Depth: " + currentDepth + 
+      ", Max Depth: " + maxDepth, 
+      10, yOffset); // Display tree information.
+    yOffset += 15; // Move to the next line.
   }
 }
