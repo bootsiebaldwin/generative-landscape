@@ -261,15 +261,18 @@ void draw(){
       
       
       // ------ Draw recursive tree structures --------
-      pushMatrix();
-      translate(0, -100);
+     // pushMatrix();
       for (TreeInfo tree : trees) {
+        pushMatrix();
+        translate(60, -160);
+        
         pushMatrix();
         translate(tree.x, tree.y);
         drawTree(75, 0, tree.primeAngle + 3, currentDepth); // Increased initial branch length and width of stump
          popMatrix();
+         popMatrix();
       }
-      popMatrix();
+      //popMatrix();
       
       //cover up previous text 
       fill(200); 
