@@ -1,3 +1,9 @@
+//Recurrent Fantasy
+// * a generative landscape
+// * Authors: Briana Addison, Bootsie Baldwin, Jonah Boxer, Sophia Butcher, Sydney Wertz
+// * Version: 1.0
+// * Date: 12.5.2024
+
 
 //------VARIABLES FROM UI------
 boolean start = false;
