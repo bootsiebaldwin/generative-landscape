@@ -1,5 +1,5 @@
-//VARIABLES FROM UI
 
+//------VARIABLES FROM UI------
 boolean start = false;
 boolean pause = false;
 boolean settings = false;
@@ -43,13 +43,11 @@ PImage exitButtonImg;
 //FONT
 PFont font;
 
-float textLocationX = 480;
+float textLocationX = 480;      //for old text location
 float textLocationY = 175;
 
 
-
-//MAIN SCENE VARIABLES
-
+//------MAIN SCENE VARIABLES-------
 int sizeX = 1600; 
 int sizeY = 1080;
 
@@ -67,7 +65,8 @@ PImage[] textures;
 int textureSize = 300;
 
  
-//------ main assets ------
+ 
+//----------- main assets ------------
 PImage backgroundImg;
 
 PImage[] bushImgs;
@@ -80,6 +79,7 @@ PImage[] dragonImgs;
 PImage dragonLogo;
 
 PImage[] doorImgs;
+
 
 //----- RECURSIVE TREE DATA-----
 int maxDepth = 10; // This is the base case
@@ -95,17 +95,16 @@ public void settings() {
 
 void setup() {
   //UI SET UP
-  //fullScreen();
   font = createFont("Retro Gaming.ttf", 48);
   
   stroke(0); 
-  frameRate(1); 
+  frameRate(3); 
   println("setting up ");
   
   //background image
   backgroundImg = loadImage("background12.png");
   
-  //load asset images
+  //-----------load asset images-----------
   bushImgs = new PImage[]{ loadImage("Bush_1.png"), loadImage("Bush_2.png"), loadImage("Bush_3.png"),
                            loadImage("Bush_4.png"), loadImage("Bush_5.png"), loadImage("Bush_6.png")
                          };
@@ -176,7 +175,7 @@ void setup() {
 
 //DO NOT USE scale(), ALWAYS SCALE BY CHANGING SIZE INPUTTED INTO FUNCTION
 void draw(){
-  if (!start) {
+  if (!start) {            //while sim is not running and art is not on screen
     background(200);
     fill(textColor);
     textFont(font);
@@ -186,20 +185,21 @@ void draw(){
     noTint();
     image(dragonLogo, 800, 0);
     
+    //blank canvas
     noStroke();
     rectMode(CENTER);
     fill(255);
     rect(displayWidth/2, displayHeight/2, 1080, 720);
     
+    //press space to generate text
     fill(0);
     textSize(24); 
     text("Press [space] to generate", displayWidth/4, displayHeight/2);
     
-    //startButton();
     loopCount = 0;
   }
   
-  if (start && !pause) {
+  if (start && !pause) {      //during sim and art
     //program screen
     noStroke();
     rectMode(CENTER);
@@ -208,17 +208,8 @@ void draw(){
       rect(displayWidth/2, displayHeight/2, 1080, 720);
     }
     
-    //pause and setting button
-    //pauseButton();
-    //settingsButton();
-    
-    //other stuff for simulation can happen here
-    
-    
     fill(0);
     textSize(24);
-    //text("Simulation has started.", textLocationX, textLocationY);
-    println("start sim");
     
     if (simRunAppear) {
       running = true;
@@ -233,10 +224,7 @@ void draw(){
         loopCount++;
       }
       
-      //loopCount++;
-      
       if (loopCount == 1) {           //draws castle on second iteration of draw() then stops loop
-        //text("Simulation has started.", 500, 300);
         int whichDoor = int(random(0,2));
         
         pushMatrix();
@@ -252,12 +240,7 @@ void draw(){
         loopCount++;
       }
       
-       //loopCount++;
-       
-      
-      
       // ------ Draw recursive tree structures --------
-     // pushMatrix();
       for (TreeInfo tree : trees) {
         pushMatrix();
         translate(60, -165);        //changes the onscreen location of tree
@@ -268,7 +251,6 @@ void draw(){
         popMatrix();
         popMatrix();
       }
-      //popMatrix();
       
       //cover up previous text 
       fill(200); 
@@ -296,23 +278,17 @@ void draw(){
       if (ifSimComplete) {
         fill(0);
         textSize(24);
-        //text("Simulation complete.", textLocationX, textLocationY);
       }
       
     }
     simRunAppear = true;
-  }
-  
-  
-  //idea: could insert tree iteration to run after loop count > 0, so we see growth 
-  
+  }  
 }
 
 // CALLED IN DRAW()---------
 void drawBackgroundAndAssets() {
   //random color palette -- for background image but may need work, not used right now
   whichColorPalette = int(random(0,6));
-  int[] randRGB = calcRandomTint();
   
   //draw background of scene
   pushMatrix();
@@ -320,14 +296,13 @@ void drawBackgroundAndAssets() {
   int[] randTintBackground = calcRandomTintBackground();
   tint(randTintBackground[0], randTintBackground[1], randTintBackground[2]);
   
-  //tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
   image(backgroundImg, 0, 0);
 
   popMatrix();
   
   pushMatrix();
   
-  tint(255, 255, 255);            //all 255 -- right now there is no tint and background is light the original
+  tint(255, 255, 255);            //all 255 -- right now there is no tint to the assets
   drawStaticAssets();
   
   popMatrix();
@@ -337,12 +312,9 @@ void drawCastle() {
   int baseTextureIndex = int(random(textures.length));
     //new color palette for castle specifically
     whichColorPalette = int(random(0,6));
-    
-    println("castle drawing");
-    
+        
     pushMatrix();
-    translate(600, 500);
-    //rotate(PI);              //flips the entire shape
+    translate(600, 500);      //moves the castle shape
     
     stroke(0); 
     strokeWeight(1);
@@ -351,10 +323,7 @@ void drawCastle() {
     drawPawn1(75, 0, baseTextureIndex);        //base case -- could be any shape
     drawPawn1(75, 0);
     
-    popMatrix();
-    
-    //noLoop();
-    
+    popMatrix();    
 }
 
 
@@ -402,7 +371,6 @@ void drawStaticAssets() {
   
   //----tree/bush assets----
   int treeOrBushVal = int(random(0,2));   // if 0 -- tree, if 1 -- one of the bushes
-  int plantLocationOffset = 50;
   
   //predetermined coordinates for bush and tree objects
   int[] plantLocationX = {120, 75,  750, 875, 900};
@@ -438,6 +406,7 @@ void drawStaticAssets() {
   
 }
 
+//drawPawn1
 //DRAWS WITH TEXTURE
 //this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
 void drawPawn1(float size, float rotation, int textureIndex){
@@ -481,6 +450,7 @@ void drawPawn1(float size, float rotation, int textureIndex){
   image(currentTexture, -textureSize/2, -textureSize/2);
 }
 
+//drawPawn1
 //this function draws the basic pawn1 shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
 //ORIGINAL WITH NO TEXTURE -- Just lines
 void drawPawn1(float size, float rotation){
@@ -500,6 +470,7 @@ void drawPawn1(float size, float rotation){
   popMatrix();
 }
 
+//drawKing
 //this function draws the basic king shape around the origin, allowing it to be rotated at any location when using translate and rotate in draw()
 //WITH TEXTURE
 void drawKing(float size, float rotation, int textureIndex){
@@ -559,8 +530,7 @@ void drawKing(float size, float rotation, int textureIndex){
   image(currentTexture, -textureSize/2, -textureSize/2);
 
 }
-
-
+//drawKing
 //ORIGINAL WITH NO TEXTURE -- JUST LINES
 void drawKing(float size, float rotation){
   pushMatrix();
@@ -660,11 +630,10 @@ void drawHexagon(float size, float rotation){
 
 
 //gives random color value for image tint
+//utilized to get the tint for the castle shapes
 int[] calcRandomTint() {
   int[] randomRGB = new int[3];      // holds RGB value  
-  
- // whichColorPalette = 6;
-  
+    
   if (whichColorPalette == 0) {
     // brick color palette
     int randomNum  = int(random(120,125));
@@ -751,16 +720,16 @@ int[] calcRandomTintBackground() {
 }
 
 
-// draw the shape recursively, currently only using drawPawn1 and drawKing
+// draw the shape recursively
 // 
-// random rotation implemented right now it only does normal orientation (rot 0) and upside down (rot PI)
+// random rotation implemented can do more rotations but is set to only at 90º intervals
 //      * rotation can be changed by adding/removing values from the rotations[] list (global).
 //      * we can go back to the original rotation method by uncommenting what I labeled as original code for rotation
 //        and commenting out what I have for the rotation
 //
 //      * rotation parameter in recShape() is obsolete unless we are using the original rotation method
 //
-// random shape -- 0 is pawn1 and 1 is king 
+// random shape -- 0 is pawn1 and 1 is king and 2 is hexagon
 //      * more can be added by adding an additional if else statement for each branch, 
 //        and adding to the shapeTypeCount
 //     
@@ -853,138 +822,7 @@ void recShape(float size, float recLevel, float rotation){
   
 }
 
-
-//-----------UI Elements--------------
-
-
-void startButton() {
-  //start button
-  stroke(2);
-  fill(startbuttonColor);
-  rect(startrx, startry, startrw, startrh);
-  //start text
-  fill(0);
-  textSize(24);
-  text("Start Simulation", (startrx - 125), startry);
-}
-
-void pauseButton() {
-  noStroke();
-  fill(255);
-  rect(pauserx, pausery, pauserw, pauserh);
-  pauseButtonImg = loadImage("Pause_Button_.png");
-  image(pauseButtonImg, pauserx - 40, pausery - 37, pauserw, pauserh);
-}
-
-void settingsButton() {
-  noStroke();
-  fill(255);
-  rect(settingsrx, settingsry, settingsrw, settingsrh);
-  settingsButtonImg = loadImage("Settings_Button.png");
-  image(settingsButtonImg, settingsrx - 40, settingsry - 37, 75, 75);
-}
-void restartButton() {
-  stroke(2);
-  fill(startbuttonColor);
-  rectMode(CENTER);
-  rect(725, 450, 220, 60);
-  fill(0);
-  textAlign(CENTER);
-  textSize(18);
-  text("Restart simulation", 725, 460);
-}
-void screenshotButton() {
-  stroke(2);
-  fill(startbuttonColor);
-  rectMode(CENTER);
-  rect(725, 550, 260, 60);
-  fill(0);
-  textAlign(CENTER);
-  textSize(18);
-  text("Screenshot simulation", 725, 560);
-}
-void infoButton() {
-  stroke(2);
-  fill(startbuttonColor);
-  rectMode(CENTER);
-  rect(725, 650, 220, 60);
-  fill(0);
-  textAlign(CENTER);
-  textSize(18);
-  text("Information", 725, 660);
-}
-
-void exitButton() {
-  stroke(2);
-  fill(255);
-  rect(exitbuttonrx, exitbuttonry, exitbuttonrw, exitbuttonrh);
-  exitButtonImg = loadImage("exit_button.png");
-  image(exitButtonImg, exitbuttonrx - 25, exitbuttonry - 25, exitbuttonrh, exitbuttonrw);
-}
-
-
-void mousePressed() {
-  //mouse fucntion for start button
-  if (mouseX >= startrx -10 &&  mouseX <= (startrx -10) + (startrw - 10) &&
-    mouseY >= startry -10 && mouseY <= (startry - 10) + (startrh - 10)) {
-    start = true;
-  }
-
-  //mouse fucntion for pause button
-  if (mouseX >= pauserx && mouseX < pauserx + pauserw
-    && mouseY >= pausery && mouseY <= pausery + pauserh) {
-    pause = !pause;
-  }
-  //mouse fucntion for settings button
-  if (mouseX >= settingsrx - 10 && mouseX < (settingsrx - 10) + (settingsrw - 10)
-    && mouseY >= settingsry - 10 && mouseY <= (settingsry - 10) + (settingsrh -10)) {
-    settings = !settings;
-  }
-
-  //mouse function for restart button
-  if (settings) {
-    
-      if (mouseX >= 725 - 10 && mouseX < (725 - 10) + (220 - 10) && mouseY >= 460-10 &&
-        mouseY <= (460 - 10) + (60 - 10)) {
-        start = false;
-        pause = false;
-        settings = false;
-        restart = false;
-        information = false;
-        screenshot = false;
-        //program screen
-        noStroke();
-        rectMode(CENTER);
-        fill(255);
-        rect(displayWidth/2, displayHeight/2, 1080, 720);
-      }
-
-      //mouse fucntion for screenshot button
-      if (mouseX >= 725 - 10 && mouseX < (725 - 10) + (240 - 10) && mouseY >= 550-10 &&
-        mouseY <= (550 - 10) + (60 - 10)) {
-        screenshot = !screenshot;
-      }
-      //mouse function for info button
-      if (mouseX >= 725 - 10 && mouseX < (725 - 10) + (220 - 10) && mouseY >= 650-10 &&
-        mouseY <= (650 - 10) + (60 - 10)) {
-        information = !information;
-      }
-      //mouse function for exit button
-    if (mouseX >= exitbuttonrx - 10 && mouseX < (exitbuttonrx - 10) + (exitbuttonrw - 10) &&
-      mouseY >= (exitbuttonry-10) && mouseY <= (exitbuttonry - 10) + (exitbuttonrh - 10)) {
-      if (information) {
-        information = false;
-      } else if (settings) {
-        settings = false;
-      } else if (screenshot) {
-        screenshot = false;
-      }
-
-    }
-  }
-}
-
-
+//UI ELEMENTS
 void keyPressed() {
   if (key == ' ') {
     println("space bar");
@@ -1007,8 +845,9 @@ void keyPressed() {
   }
 }
 
-//tree functions
 
+
+//---------recursive tree functions----------
 void drawTree(float len, int depth, int angle, int limit) {
   if (depth >= limit) return;
 
